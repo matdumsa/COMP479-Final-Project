@@ -16,7 +16,7 @@ import websphinx.Wildcard;
 
 public class ConcreteCrawler extends Crawler {
 
-	private static HashMap<String, ConcreteCrawler> domainCrawlMap = new HashMap<String, ConcreteCrawler>();
+	private static HashMap<String, Integer> domainCrawlMap = new HashMap<String, Integer>();
 	/**
 	 * 
 	 */
@@ -24,16 +24,14 @@ public class ConcreteCrawler extends Crawler {
 	// This simple crawler visits a certain university department
 	// and lists home-page URLs of the academic faculty.  All the
 	// homepage URLs are assumed to obey the following pattern:
-	static Pattern facultyHomePage = 
-			new Wildcard ("*");
+	static Pattern concordiaDomain = 
+			new Wildcard ("http://*.concordia.ca/*");
 
 	public ConcreteCrawler(Link root) {
 		super();
-		synchronized(domainCrawlMap) {
-			domainCrawlMap.put(root.getHost(), this);
-		}
+
 		DownloadParameters dp = super.getDownloadParameters();
-		dp = dp.changeMaxThreads(1);
+		dp = dp.changeMaxThreads(50);
 		super.setDownloadParameters(dp);
 		super.addRoot(root);
 	}
@@ -42,23 +40,22 @@ public class ConcreteCrawler extends Crawler {
 	 */
 	@Override
 	public boolean shouldVisit (Link link) {
-		
+
+		if (concordiaDomain.found(link.getURL().toString()) == false)
+			return false;
 		
 		String domainName = link.getHost();
-		ConcreteCrawler crawler;
-		synchronized(domainCrawlMap) {
-			crawler = domainCrawlMap.get(domainName);
-		}
-		if (crawler == null) { //New domain mame, new crawler!
-			ThreadPool.getThread(new ConcreteCrawler(link)).run();
-			return false;
+		//If this the first time we see this domain?
+		if (domainCrawlMap.containsKey(domainName)) {
+			Integer i = domainCrawlMap.get(domainName);
+			link.setPriority(i++);
+			domainCrawlMap.put(domainName, i);
 		} else {
-			//Am a the responsible thread for this?
-			if(crawler.equals(this))
-				return true;
-			else
-				return false;
+			domainCrawlMap.put(domainName, 1);
+			link.setPriority(0);
 		}
+		
+		return true;
 	}
 
 
