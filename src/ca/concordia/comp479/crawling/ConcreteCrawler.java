@@ -53,6 +53,7 @@ public class ConcreteCrawler extends Crawler {
 		} else {
 			domainCrawlMap.put(domainName, 1);
 			link.setPriority(0);
+			System.out.println(domainCrawlMap.size() + "-" + domainName);
 		}
 		
 		return true;
@@ -67,24 +68,24 @@ public class ConcreteCrawler extends Crawler {
 	 * @see websphinx.Crawler#visit(websphinx.Page)
 	 */
 	public void visit (Page page) {
-		try {
-			int currentPage;
-			synchronized(pageNumber) {
-				currentPage = ++pageNumber;
-			}
-			OutputStream out = new FileOutputStream("data/" + currentPage);
-			out.write( page.getContentBytes());
-			out.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		System.out.println ( Thread.currentThread().getName() + ":"+ page.getURL () ); 
-		page.discardContent();
+//		try {
+//			int currentPage;
+//			synchronized(pageNumber) {
+//				currentPage = ++pageNumber;
+//			}
+//			OutputStream out = new FileOutputStream("data/" + currentPage);
+//			out.write( page.getContentBytes());
+//			out.close();
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		System.out.println ( Thread.currentThread().getName() + ":"+ page.getURL () ); 
+//		page.discardContent();
 
 	}
 
