@@ -53,39 +53,44 @@ public class ConcreteCrawler extends Crawler {
 		} else {
 			domainCrawlMap.put(domainName, 1);
 			link.setPriority(0);
-			System.out.println(domainCrawlMap.size() + "-" + domainName);
 		}
 		
+		link.discardContent();
 		return true;
 	}
 
 
 	private static Integer pageNumber = 0;
-
+	private static Integer lastPriority = 0;
 	@Override
 	/*
 	 * (non-Javadoc)
 	 * @see websphinx.Crawler#visit(websphinx.Page)
 	 */
 	public void visit (Page page) {
-//		try {
-//			int currentPage;
-//			synchronized(pageNumber) {
-//				currentPage = ++pageNumber;
-//			}
-//			OutputStream out = new FileOutputStream("data/" + currentPage);
-//			out.write( page.getContentBytes());
-//			out.close();
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		System.out.println ( Thread.currentThread().getName() + ":"+ page.getURL () ); 
-//		page.discardContent();
+		synchronized(pageNumber) {
+			pageNumber++;
+		}
+		if (pageNumber%1000 == 0)
+			System.out.println("I am at page " + pageNumber);
+		try {
+			int currentPage;
+			synchronized(pageNumber) {
+				currentPage = ++pageNumber;
+			}
+			OutputStream out = new FileOutputStream("data/" + currentPage);
+			out.write( page.getContentBytes());
+			out.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		page.getOrigin().setPage(null);
+		page.discardContent();
 
 	}
 
