@@ -30,14 +30,14 @@ public class ConcreteCrawler extends Crawler {
 	// and lists home-page URLs of the academic faculty.  All the
 	// homepage URLs are assumed to obey the following pattern:
 	static Pattern concordiaDomain = 
-			new Wildcard ("http://users.encs.concordia.ca/*");
+			new Wildcard ("http://*cs.concordia.ca/*");
 
 	public ConcreteCrawler(Link root) {
 		super();
 		indexer = new TokenizerThread("Web indexer");
 		indexer.start();
 		DownloadParameters dp = super.getDownloadParameters();
-		dp = dp.changeMaxThreads(50);
+		dp = dp.changeMaxThreads(40);
 		super.setDownloadParameters(dp);
 		super.addRoot(root);
 	}
@@ -104,7 +104,6 @@ public class ConcreteCrawler extends Crawler {
 		savePageToDisk(page);
 
 		Document doc = new Document(pageNumber, page.getTitle(), page.getContent());
-		Corpus.addArticle(doc);
 		indexer.addDocument(doc);
 		
 		page.getOrigin().setPage(null);
