@@ -1,5 +1,9 @@
 package ca.concordia.comp479.crawling;
 
+import info.mathieusavard.domain.Corpus;
+import info.mathieusavard.domain.Document;
+import info.mathieusavard.domain.index.TokenizerThread;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,6 +21,7 @@ import websphinx.Wildcard;
 public class ConcreteCrawler extends Crawler {
 
 	private static HashMap<String, Integer> domainCrawlMap = new HashMap<String, Integer>();
+	private TokenizerThread indexer;
 	/**
 	 * 
 	 */
@@ -25,15 +30,37 @@ public class ConcreteCrawler extends Crawler {
 	// and lists home-page URLs of the academic faculty.  All the
 	// homepage URLs are assumed to obey the following pattern:
 	static Pattern concordiaDomain = 
-			new Wildcard ("http://*.concordia.ca/*");
+			new Wildcard ("http://users.encs.concordia.ca/*");
 
 	public ConcreteCrawler(Link root) {
 		super();
-
+		indexer = new TokenizerThread("Web indexer");
+		indexer.start();
 		DownloadParameters dp = super.getDownloadParameters();
 		dp = dp.changeMaxThreads(50);
 		super.setDownloadParameters(dp);
 		super.addRoot(root);
+	}
+
+	public void concludeCrawl() {
+		System.out.println("Donw crawling, waiting for the worker to finish downloading.");
+		while (this.getActiveThreads() > 0)
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
+		System.out.println("Done downloading, waiting for indexing to finish");
+		indexer.stopThread();
+		try {
+			indexer.join();
+			System.out.println("Done indexing");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * Called by sphynx everytime a url is discovered
@@ -51,6 +78,7 @@ public class ConcreteCrawler extends Crawler {
 			link.setPriority(i++);
 			domainCrawlMap.put(domainName, i);
 		} else {
+			System.out.println(domainCrawlMap.size() + " " + domainName);
 			domainCrawlMap.put(domainName, 1);
 			link.setPriority(0);
 		}
@@ -61,7 +89,6 @@ public class ConcreteCrawler extends Crawler {
 
 
 	private static Integer pageNumber = 0;
-	private static Integer lastPriority = 0;
 	@Override
 	/*
 	 * (non-Javadoc)
@@ -73,10 +100,23 @@ public class ConcreteCrawler extends Crawler {
 		}
 		if (pageNumber%1000 == 0)
 			System.out.println("I am at page " + pageNumber);
+
+		savePageToDisk(page);
+
+		Document doc = new Document(pageNumber, page.getTitle(), page.getContent());
+		Corpus.addArticle(doc);
+		indexer.addDocument(doc);
+		
+		page.getOrigin().setPage(null);
+		page.discardContent();
+
+	}
+	
+	private void savePageToDisk(Page page) {
 		try {
 			int currentPage;
 			synchronized(pageNumber) {
-				currentPage = ++pageNumber;
+				currentPage = pageNumber;
 			}
 			OutputStream out = new FileOutputStream("data/" + currentPage);
 			out.write( page.getContentBytes());
@@ -88,17 +128,14 @@ public class ConcreteCrawler extends Crawler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		page.getOrigin().setPage(null);
-		page.discardContent();
-
 	}
 
 	public static void main(String[] args) {
 		ConcreteCrawler crawler;
 		try {
-			crawler = new ConcreteCrawler(new Link("http://www.concordia.ca"));
+			crawler = new ConcreteCrawler(new Link("http://users.encs.concordia.ca/~c479_2/"));
 			crawler.run();
+			crawler.concludeCrawl();
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
