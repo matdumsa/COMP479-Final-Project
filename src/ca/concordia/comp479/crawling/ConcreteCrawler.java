@@ -2,7 +2,7 @@ package ca.concordia.comp479.crawling;
 
 import info.mathieusavard.domain.Corpus;
 import info.mathieusavard.domain.Document;
-import info.mathieusavard.domain.index.TokenizerThread;
+import info.mathieusavard.domain.index.IndexerThread;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -21,7 +21,7 @@ import websphinx.Wildcard;
 public class ConcreteCrawler extends Crawler {
 
 	private static HashMap<String, Integer> domainCrawlMap = new HashMap<String, Integer>();
-	private TokenizerThread indexer;
+	private IndexerThread indexer;
 	/**
 	 * 
 	 */
@@ -34,7 +34,7 @@ public class ConcreteCrawler extends Crawler {
 
 	public ConcreteCrawler(Link root) {
 		super();
-		indexer = new TokenizerThread("Web indexer");
+		indexer = new IndexerThread("Web indexer");
 		indexer.start();
 		DownloadParameters dp = super.getDownloadParameters();
 		dp = dp.changeMaxThreads(40);
@@ -53,7 +53,7 @@ public class ConcreteCrawler extends Crawler {
 			}
 		
 		System.out.println("Done downloading, waiting for indexing to finish");
-		indexer.stopThread();
+		indexer.signalNoMoreDocumentsAreExpected();
 		try {
 			indexer.join();
 			System.out.println("Done indexing");
