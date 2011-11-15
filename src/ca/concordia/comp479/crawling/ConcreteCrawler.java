@@ -1,6 +1,5 @@
 package ca.concordia.comp479.crawling;
 
-import info.mathieusavard.domain.Corpus;
 import info.mathieusavard.domain.Document;
 import info.mathieusavard.domain.index.IndexerThread;
 
@@ -53,7 +52,7 @@ public class ConcreteCrawler extends Crawler {
 			}
 		
 		System.out.println("Done downloading, waiting for indexing to finish");
-		indexer.signalNoMoreDocumentsAreExpected();
+		IndexerThread.signalNoMoreDocumentsAreExpected();
 		try {
 			indexer.join();
 			System.out.println("Done indexing");
@@ -104,7 +103,7 @@ public class ConcreteCrawler extends Crawler {
 		savePageToDisk(page);
 
 		Document doc = new Document(pageNumber, page.getTitle(), page.getContent());
-		indexer.addDocument(doc);
+		IndexerThread.addDocument(doc);
 		
 		page.getOrigin().setPage(null);
 		page.discardContent();
