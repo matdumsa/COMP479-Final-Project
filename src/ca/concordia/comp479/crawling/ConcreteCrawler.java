@@ -2,6 +2,7 @@ package ca.concordia.comp479.crawling;
 
 import info.mathieusavard.domain.Document;
 import info.mathieusavard.domain.index.IndexerThread;
+import info.mathieusavard.domain.index.spimi.SPIMIReconciliation;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -56,6 +57,8 @@ public class ConcreteCrawler extends Crawler {
 		try {
 			indexer.join();
 			System.out.println("Done indexing");
+			SPIMIReconciliation.reconciliate();
+			System.out.println("Done reconciling");
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,12 +105,20 @@ public class ConcreteCrawler extends Crawler {
 
 		savePageToDisk(page);
 
-		Document doc = new Document(pageNumber, page.getTitle(), page.getContent());
+		Document doc = new Document(pageNumber, page.getTitle(), getWordsOnly(page));
 		IndexerThread.addDocument(doc);
 		
 		page.getOrigin().setPage(null);
 		page.discardContent();
 
+	}
+	
+	private String getWordsOnly(Page page) {
+		StringBuilder sb = new StringBuilder();
+		for (websphinx.Text t : page.getWords()) {
+			sb.append(t.toText() + " ");
+		}
+		return sb.toString();
 	}
 	
 	private void savePageToDisk(Page page) {
@@ -116,7 +127,7 @@ public class ConcreteCrawler extends Crawler {
 			synchronized(pageNumber) {
 				currentPage = pageNumber;
 			}
-			OutputStream out = new FileOutputStream("data/" + currentPage);
+			OutputStream out = new FileOutputStream("../crawler_result/doc/" + currentPage);
 			out.write( page.getContentBytes());
 			out.close();
 		} catch (FileNotFoundException e) {
