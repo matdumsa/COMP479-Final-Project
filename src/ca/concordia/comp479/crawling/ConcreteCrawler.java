@@ -1,8 +1,9 @@
 package ca.concordia.comp479.crawling;
 
-import info.mathieusavard.domain.Document;
+import info.mathieusavard.domain.Corpus;
 import info.mathieusavard.domain.index.IndexerThread;
 import info.mathieusavard.domain.index.spimi.SPIMIReconciliation;
+import ca.concordia.comp479.indexation.WebDocument;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,6 +35,9 @@ public class ConcreteCrawler extends Crawler {
 
 	public ConcreteCrawler(Link root) {
 		super();
+		//Telling the corpus class how-to create new documents
+		Corpus.setNewDocumentFactory(WebDocument.class);
+
 		indexer = new IndexerThread("Web indexer");
 		indexer.start();
 		DownloadParameters dp = super.getDownloadParameters();
@@ -105,7 +109,7 @@ public class ConcreteCrawler extends Crawler {
 
 		savePageToDisk(page);
 
-		Document doc = new Document(pageNumber, page.getTitle(), getWordsOnly(page));
+		WebDocument doc = new WebDocument(pageNumber, page.getTitle(), getWordsOnly(page), page.getURL().toString());
 		IndexerThread.addDocument(doc);
 		
 		page.getOrigin().setPage(null);
