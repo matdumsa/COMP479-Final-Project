@@ -106,12 +106,12 @@ public class ConcreteCrawler extends Crawler {
 		synchronized(pageNumber) {
 			currentPage = pageNumber++;
 		}
-		if (pageNumber%1000 == 0)
+		if (currentPage%1000 == 0)
 			System.out.println("I am at page " + currentPage);
 
 		savePageToDisk(page, "../crawler_result/doc/" + currentPage);
 
-		WebDocument doc = new WebDocument(pageNumber, page.getTitle(), getWordsOnly(page), page.getURL().toString());
+		WebDocument doc = new WebDocument(currentPage, page.getTitle(), getWordsOnly(page), page.getURL().toString());
 		IndexerThread.addDocument(doc);
 		
 		page.getOrigin().setPage(null);
