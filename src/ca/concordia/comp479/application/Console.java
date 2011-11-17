@@ -1,8 +1,8 @@
 package ca.concordia.comp479.application;
 
-import ca.concordia.comp479.indexation.WebDocument;
 import info.mathieusavard.application.console.InteractiveQuery;
 import info.mathieusavard.domain.Corpus;
+import info.mathieusavard.domain.WebDocument;
 
 public class Console {
 
