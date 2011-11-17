@@ -1,6 +1,8 @@
 package ca.concordia.comp479.crawling;
 
-import info.mathieusavard.domain.corpus.Corpus;
+import info.mathieusavard.domain.WebDocument;
+import info.mathieusavard.domain.WeightedDocument;
+import info.mathieusavard.domain.corpus.WeightedCorpus;
 import info.mathieusavard.domain.index.IndexerThread;
 import info.mathieusavard.domain.index.spimi.SPIMIReconciliation;
 
@@ -17,7 +19,6 @@ import websphinx.Link;
 import websphinx.Page;
 import websphinx.Pattern;
 import websphinx.Wildcard;
-import ca.concordia.comp479.indexation.WebDocument;
 
 public class ConcreteCrawler extends Crawler {
 
@@ -36,7 +37,7 @@ public class ConcreteCrawler extends Crawler {
 	public ConcreteCrawler(Link root) {
 		super();
 		//Telling the corpus class how-to create new documents
-		Corpus.setNewDocumentFactory(WebDocument.class);
+		WeightedCorpus.setNewDocumentFactory(WeightedDocument.class);
 
 		indexer = new IndexerThread("Web indexer");
 		indexer.start();
