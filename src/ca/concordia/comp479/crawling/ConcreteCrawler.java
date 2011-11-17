@@ -81,7 +81,6 @@ public class ConcreteCrawler extends Crawler {
 	 */
 	@Override
 	public boolean shouldVisit (Link link) {
-
 		if (concordiaDomain.found(link.getURL().toString()) == false)
 			return false;
 
@@ -120,7 +119,7 @@ public class ConcreteCrawler extends Crawler {
 
 			try {
 				savePageToDisk(page, "../crawler_result/doc/" + currentPage);
-				WebDocument doc = new WebDocument(currentPage, page.getTitle(), getWordsOnly(page), page.getURL().toString());
+				WebDocument doc = getDocumentFromPage(page, currentPage);
 				IndexerThread.addDocument(doc);
 			} catch (CannotGetParsedDocumentException e) {
 				e.printStackTrace();
@@ -131,7 +130,10 @@ public class ConcreteCrawler extends Crawler {
 
 	}
 
-	private String getWordsOnly(Page page) throws CannotGetParsedDocumentException {
+	private WebDocument getDocumentFromPage(Page page, int id) throws CannotGetParsedDocumentException {
+		String text = null;
+		String title = null;
+
 		if (page.isHTML()) {
 			StringBuilder sb = new StringBuilder();
 			Text[] words = page.getWords();
@@ -140,7 +142,8 @@ public class ConcreteCrawler extends Crawler {
 			for (websphinx.Text t : words) {
 				sb.append(t.toText() + " ");
 			}
-			return sb.toString();
+			text = sb.toString();
+			title = page.getTitle();
 		}
 		else if (page.getContentType().equalsIgnoreCase("application/pdf") || page.getContentType().equalsIgnoreCase("application/x-pdf")) {
 
@@ -148,13 +151,13 @@ public class ConcreteCrawler extends Crawler {
 			COSDocument cosDoc = null;
 			PDFTextStripper pdfStripper;
 			PDDocument pdDoc = null;
-			String text = null;
 			try {
 				parser = new PDFParser( new ByteArrayInputStream(page.getContentBytes()));
 				parser.parse();
 				cosDoc = parser.getDocument();
 				pdfStripper = new PDFTextStripper();
 				pdDoc = new PDDocument(cosDoc);
+				title = pdDoc.getDocumentInformation().getTitle();
 				text = pdfStripper.getText(pdDoc);
 			} catch (IOException e) {
 				throw new CannotGetParsedDocumentException(e);
@@ -167,11 +170,12 @@ public class ConcreteCrawler extends Crawler {
 					e.printStackTrace();
 				}
 			}
-			return text;
 
 		}
+		if (title == null || title.length() == 0 )
+			title = "Unknown title";
+		return new WebDocument(id, title, text, page.getURL().toString());
 
-		throw new CannotGetParsedDocumentException();
 
 	}
 
@@ -192,7 +196,7 @@ public class ConcreteCrawler extends Crawler {
 	public static void main(String[] args) {
 		ConcreteCrawler crawler;
 		try {
-			crawler = new ConcreteCrawler(new Link("http://users.encs.concordia.ca/~c479_2/"));
+			crawler = new ConcreteCrawler(new Link("http://encs.concordia.ca/"));
 			crawler.run();
 			crawler.concludeCrawl();
 		} catch (MalformedURLException e) {
