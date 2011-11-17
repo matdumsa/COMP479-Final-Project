@@ -18,6 +18,7 @@ import websphinx.DownloadParameters;
 import websphinx.Link;
 import websphinx.Page;
 import websphinx.Pattern;
+import websphinx.Text;
 import websphinx.Wildcard;
 
 public class ConcreteCrawler extends Crawler {
@@ -56,8 +57,8 @@ public class ConcreteCrawler extends Crawler {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		
-		System.out.println("Done downloading, waiting for indexing to finish");
+
+		System.out.println("Done downloading " + pageNumber + " pages, waiting for indexing to finish");
 		IndexerThread.signalNoMoreDocumentsAreExpected();
 		try {
 			indexer.join();
@@ -77,7 +78,7 @@ public class ConcreteCrawler extends Crawler {
 
 		if (concordiaDomain.found(link.getURL().toString()) == false)
 			return false;
-		
+
 		String domainName = link.getHost();
 		//If this the first time we see this domain?
 		if (domainCrawlMap.containsKey(domainName)) {
@@ -89,7 +90,7 @@ public class ConcreteCrawler extends Crawler {
 			domainCrawlMap.put(domainName, 1);
 			link.setPriority(0);
 		}
-		
+
 		link.discardContent();
 		return true;
 	}
@@ -102,31 +103,39 @@ public class ConcreteCrawler extends Crawler {
 	 * @see websphinx.Crawler#visit(websphinx.Page)
 	 */
 	public void visit (Page page) {
-		int currentPage;
-		synchronized(pageNumber) {
-			currentPage = pageNumber++;
+		String contentType = page.getContentType();
+		if (contentType.equals("text/html") && concordiaDomain.found(page.getURL().toString())) {
+			int currentPage;
+			synchronized(pageNumber) {
+				currentPage = pageNumber++;
+			}
+			if (currentPage%1000 == 0)
+				System.out.println("I am at page " + currentPage);
+
+			try {
+				savePageToDisk(page, "../crawler_result/doc/" + currentPage);
+				WebDocument doc = new WebDocument(currentPage, page.getTitle(), getWordsOnly(page), page.getURL().toString());
+				IndexerThread.addDocument(doc);
+			} catch (CannotGetParsedDocumentException e) {
+				e.printStackTrace();
+			}
 		}
-		if (currentPage%1000 == 0)
-			System.out.println("I am at page " + currentPage);
-
-		savePageToDisk(page, "../crawler_result/doc/" + currentPage);
-
-		WebDocument doc = new WebDocument(currentPage, page.getTitle(), getWordsOnly(page), page.getURL().toString());
-		IndexerThread.addDocument(doc);
-		
 		page.getOrigin().setPage(null);
 		page.discardContent();
 
 	}
-	
-	private String getWordsOnly(Page page) {
+
+	private String getWordsOnly(Page page) throws CannotGetParsedDocumentException {
 		StringBuilder sb = new StringBuilder();
-		for (websphinx.Text t : page.getWords()) {
+		Text[] words = page.getWords();
+		if (words == null)
+			throw new CannotGetParsedDocumentException();
+		for (websphinx.Text t : words) {
 			sb.append(t.toText() + " ");
 		}
 		return sb.toString();
 	}
-	
+
 	private void savePageToDisk(Page page, String saveTo) {
 		try {
 			OutputStream out = new FileOutputStream(saveTo);
@@ -152,4 +161,11 @@ public class ConcreteCrawler extends Crawler {
 			e.printStackTrace();
 		}
 	}
+
+	private class CannotGetParsedDocumentException extends Exception {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -4119639557594499917L; }
 }
