@@ -6,12 +6,18 @@ import info.mathieusavard.domain.corpus.WeightedCorpus;
 import info.mathieusavard.domain.index.IndexerThread;
 import info.mathieusavard.domain.index.spimi.SPIMIReconciliation;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.util.HashMap;
+
+import org.apache.pdfbox.cos.COSDocument;
+import org.apache.pdfbox.pdfparser.PDFParser;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.util.PDFTextStripper;
 
 import websphinx.Crawler;
 import websphinx.DownloadParameters;
@@ -104,7 +110,7 @@ public class ConcreteCrawler extends Crawler {
 	 */
 	public void visit (Page page) {
 		String contentType = page.getContentType();
-		if (contentType.equals("text/html") && concordiaDomain.found(page.getURL().toString())) {
+		if ((page.isHTML() || contentType.equalsIgnoreCase("application/pdf") || contentType.equalsIgnoreCase("application/x-pdf")) && concordiaDomain.found(page.getURL().toString())) {
 			int currentPage;
 			synchronized(pageNumber) {
 				currentPage = pageNumber++;
@@ -126,14 +132,47 @@ public class ConcreteCrawler extends Crawler {
 	}
 
 	private String getWordsOnly(Page page) throws CannotGetParsedDocumentException {
-		StringBuilder sb = new StringBuilder();
-		Text[] words = page.getWords();
-		if (words == null)
-			throw new CannotGetParsedDocumentException();
-		for (websphinx.Text t : words) {
-			sb.append(t.toText() + " ");
+		if (page.isHTML()) {
+			StringBuilder sb = new StringBuilder();
+			Text[] words = page.getWords();
+			if (words == null)
+				throw new CannotGetParsedDocumentException();
+			for (websphinx.Text t : words) {
+				sb.append(t.toText() + " ");
+			}
+			return sb.toString();
 		}
-		return sb.toString();
+		else if (page.getContentType().equalsIgnoreCase("application/pdf") || page.getContentType().equalsIgnoreCase("application/x-pdf")) {
+
+			PDFParser parser;
+			COSDocument cosDoc = null;
+			PDFTextStripper pdfStripper;
+			PDDocument pdDoc = null;
+			String text = null;
+			try {
+				parser = new PDFParser( new ByteArrayInputStream(page.getContentBytes()));
+				parser.parse();
+				cosDoc = parser.getDocument();
+				pdfStripper = new PDFTextStripper();
+				pdDoc = new PDDocument(cosDoc);
+				text = pdfStripper.getText(pdDoc);
+			} catch (IOException e) {
+				throw new CannotGetParsedDocumentException(e);
+			} finally {
+				try {
+					if (pdDoc != null) pdDoc.close();
+					if (cosDoc != null) cosDoc.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return text;
+
+		}
+
+		throw new CannotGetParsedDocumentException();
+
 	}
 
 	private void savePageToDisk(Page page, String saveTo) {
@@ -167,5 +206,12 @@ public class ConcreteCrawler extends Crawler {
 		/**
 		 * 
 		 */
-		private static final long serialVersionUID = -4119639557594499917L; }
+		private static final long serialVersionUID = -4119639557594499917L;
+		public CannotGetParsedDocumentException(Exception e) {
+			super(e);
+		}
+		public CannotGetParsedDocumentException() {
+			super();
+		}
+	}
 }
