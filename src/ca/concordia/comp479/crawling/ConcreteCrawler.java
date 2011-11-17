@@ -39,7 +39,7 @@ public class ConcreteCrawler extends Crawler {
 	// and lists home-page URLs of the academic faculty.  All the
 	// homepage URLs are assumed to obey the following pattern:
 	static Pattern concordiaDomain = 
-			new Wildcard ("http://*cs.concordia.ca/*");
+			new Wildcard ("http://encs.concordia.ca/*");
 
 	public ConcreteCrawler(Link root) {
 		super();
