@@ -102,13 +102,14 @@ public class ConcreteCrawler extends Crawler {
 	 * @see websphinx.Crawler#visit(websphinx.Page)
 	 */
 	public void visit (Page page) {
+		int currentPage;
 		synchronized(pageNumber) {
-			pageNumber++;
+			currentPage = pageNumber++;
 		}
 		if (pageNumber%1000 == 0)
-			System.out.println("I am at page " + pageNumber);
+			System.out.println("I am at page " + currentPage);
 
-		savePageToDisk(page);
+		savePageToDisk(page, "../crawler_result/doc/" + currentPage);
 
 		WebDocument doc = new WebDocument(pageNumber, page.getTitle(), getWordsOnly(page), page.getURL().toString());
 		IndexerThread.addDocument(doc);
@@ -126,13 +127,9 @@ public class ConcreteCrawler extends Crawler {
 		return sb.toString();
 	}
 	
-	private void savePageToDisk(Page page) {
+	private void savePageToDisk(Page page, String saveTo) {
 		try {
-			int currentPage;
-			synchronized(pageNumber) {
-				currentPage = pageNumber;
-			}
-			OutputStream out = new FileOutputStream("../crawler_result/doc/" + currentPage);
+			OutputStream out = new FileOutputStream(saveTo);
 			out.write( page.getContentBytes());
 			out.close();
 		} catch (FileNotFoundException e) {
