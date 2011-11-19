@@ -5,6 +5,7 @@ import info.mathieusavard.domain.WeightedDocument;
 import info.mathieusavard.domain.corpus.WeightedCorpus;
 import info.mathieusavard.domain.index.IndexerThread;
 import info.mathieusavard.domain.index.spimi.SPIMIReconciliation;
+import info.mathieusavard.technicalservices.BenchmarkRow;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
@@ -194,6 +195,8 @@ public class ConcreteCrawler extends Crawler {
 	}
 
 	public static void main(String[] args) {
+		BenchmarkRow bench = new BenchmarkRow("Crawling+Indexing+Computing TF-IDF");
+		bench.start();
 		ConcreteCrawler crawler;
 		try {
 			crawler = new ConcreteCrawler(new Link("http://encs.concordia.ca/"));
@@ -203,6 +206,8 @@ public class ConcreteCrawler extends Crawler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		bench.stop();
+		System.out.println(bench.toString());
 	}
 
 	private class CannotGetParsedDocumentException extends Exception {
