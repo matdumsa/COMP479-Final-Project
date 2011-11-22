@@ -167,6 +167,8 @@ public class ConcreteCrawler extends Crawler {
 	}
 
 	public static void main(String[] args) {
+		BenchmarkRow bench = new BenchmarkRow("Crawling+Indexing+Computing TF-IDF");
+		bench.start();
 		ConcreteCrawler crawler;
 		try {
 			BenchmarkRow br = new BenchmarkRow("total crawl+index time");
@@ -180,6 +182,8 @@ public class ConcreteCrawler extends Crawler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		bench.stop();
+		System.out.println(bench.toString());
 	}
 
 	private class CannotGetParsedDocumentException extends Exception {
