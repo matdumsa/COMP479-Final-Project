@@ -5,19 +5,14 @@ import info.mathieusavard.domain.WeightedDocument;
 import info.mathieusavard.domain.corpus.WeightedCorpus;
 import info.mathieusavard.domain.index.IndexerThread;
 import info.mathieusavard.domain.index.spimi.SPIMIReconciliation;
+import info.mathieusavard.technicalservices.BenchmarkRow;
 
-import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.util.HashMap;
-
-import org.apache.pdfbox.cos.COSDocument;
-import org.apache.pdfbox.pdfparser.PDFParser;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.util.PDFTextStripper;
 
 import websphinx.Crawler;
 import websphinx.DownloadParameters;
@@ -108,19 +103,21 @@ public class ConcreteCrawler extends Crawler {
 	 * @see websphinx.Crawler#visit(websphinx.Page)
 	 */
 	public void visit (Page page) {
-		String contentType = page.getContentType();
-		if ((page.isHTML() || contentType.equalsIgnoreCase("application/pdf") || contentType.equalsIgnoreCase("application/x-pdf")) && concordiaDomain.found(page.getURL().toString())) {
+		if ((concordiaDomain.found(page.getURL().toString()))) {
 			int currentPage;
-			synchronized(pageNumber) {
-				currentPage = pageNumber++;
-			}
-			if (currentPage%1000 == 0)
-				System.out.println("I am at page " + currentPage);
 
 			try {
-				savePageToDisk(page, "../crawler_result/doc/" + currentPage);
-				WebDocument doc = getDocumentFromPage(page, currentPage);
-				IndexerThread.addDocument(doc);
+				WebDocument doc = getDocumentFromPage(page);
+				if (doc.getText().length() > 0) {
+					synchronized(pageNumber) {
+						currentPage = pageNumber++;
+					}
+					if (currentPage%1000 == 0)
+						System.out.println("I am at page " + currentPage);
+					doc.setId(currentPage);
+					savePageToDisk(page, "../crawler_result/doc/" + currentPage);
+					IndexerThread.addDocument(doc);
+				}
 			} catch (CannotGetParsedDocumentException e) {
 				e.printStackTrace();
 			}
@@ -130,7 +127,7 @@ public class ConcreteCrawler extends Crawler {
 
 	}
 
-	private WebDocument getDocumentFromPage(Page page, int id) throws CannotGetParsedDocumentException {
+	private WebDocument getDocumentFromPage(Page page) throws CannotGetParsedDocumentException {
 		String text = null;
 		String title = null;
 
@@ -144,37 +141,13 @@ public class ConcreteCrawler extends Crawler {
 			}
 			text = sb.toString();
 			title = page.getTitle();
+			if (title == null || title.length() == 0 )
+				title = "Unknown title";
+			return new WebDocument(0, title, text, page.getURL().toString());
 		}
-		else if (page.getContentType().equalsIgnoreCase("application/pdf") || page.getContentType().equalsIgnoreCase("application/x-pdf")) {
-
-			PDFParser parser;
-			COSDocument cosDoc = null;
-			PDFTextStripper pdfStripper;
-			PDDocument pdDoc = null;
-			try {
-				parser = new PDFParser( new ByteArrayInputStream(page.getContentBytes()));
-				parser.parse();
-				cosDoc = parser.getDocument();
-				pdfStripper = new PDFTextStripper();
-				pdDoc = new PDDocument(cosDoc);
-				title = pdDoc.getDocumentInformation().getTitle();
-				text = pdfStripper.getText(pdDoc);
-			} catch (IOException e) {
-				throw new CannotGetParsedDocumentException(e);
-			} finally {
-				try {
-					if (pdDoc != null) pdDoc.close();
-					if (cosDoc != null) cosDoc.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
+		else {
+			return WebDocumentFactory.getDocument(page);
 		}
-		if (title == null || title.length() == 0 )
-			title = "Unknown title";
-		return new WebDocument(id, title, text, page.getURL().toString());
 
 
 	}
@@ -196,9 +169,13 @@ public class ConcreteCrawler extends Crawler {
 	public static void main(String[] args) {
 		ConcreteCrawler crawler;
 		try {
+			BenchmarkRow br = new BenchmarkRow("total crawl+index time");
+			br.start();
 			crawler = new ConcreteCrawler(new Link("http://encs.concordia.ca/"));
 			crawler.run();
 			crawler.concludeCrawl();
+			br.stop();
+			System.out.println(br.toString());
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -211,9 +188,6 @@ public class ConcreteCrawler extends Crawler {
 		 * 
 		 */
 		private static final long serialVersionUID = -4119639557594499917L;
-		public CannotGetParsedDocumentException(Exception e) {
-			super(e);
-		}
 		public CannotGetParsedDocumentException() {
 			super();
 		}
