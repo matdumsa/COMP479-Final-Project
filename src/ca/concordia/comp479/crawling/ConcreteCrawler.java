@@ -6,6 +6,7 @@ import info.mathieusavard.domain.corpus.WeightedCorpus;
 import info.mathieusavard.domain.index.IndexerThread;
 import info.mathieusavard.domain.index.spimi.SPIMIReconciliation;
 import info.mathieusavard.technicalservices.BenchmarkRow;
+import info.mathieusavard.technicalservices.Property;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,7 +35,7 @@ public class ConcreteCrawler extends Crawler {
 	// and lists home-page URLs of the academic faculty.  All the
 	// homepage URLs are assumed to obey the following pattern:
 	static Pattern concordiaDomain = 
-			new Wildcard ("http://encs.concordia.ca/*");
+			new Wildcard ("http://*cs.concordia.ca/*");
 
 	public ConcreteCrawler(Link root) {
 		super();
@@ -115,7 +116,7 @@ public class ConcreteCrawler extends Crawler {
 					if (currentPage%1000 == 0)
 						System.out.println("I am at page " + currentPage);
 					doc.setId(currentPage);
-					savePageToDisk(page, "../crawler_result/doc/" + currentPage);
+					savePageToDisk(page, Property.get("basepath") + "/data/" + currentPage);
 					IndexerThread.addDocument(doc);
 				}
 			} catch (CannotGetParsedDocumentException e) {
