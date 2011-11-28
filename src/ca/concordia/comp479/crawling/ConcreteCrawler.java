@@ -8,12 +8,17 @@ import info.mathieusavard.domain.index.spimi.SPIMIReconciliation;
 import info.mathieusavard.technicalservices.BenchmarkRow;
 import info.mathieusavard.technicalservices.Property;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 import websphinx.Crawler;
 import websphinx.DownloadParameters;
@@ -185,6 +190,27 @@ public class ConcreteCrawler extends Crawler {
 		}
 		bench.stop();
 		System.out.println(bench.toString());
+		/*System.out.println("Starting checking for double");
+		BufferedReader index;
+		try {
+			index = new BufferedReader(new InputStreamReader(new FileInputStream(new File("../crawler_result/articles.txt"))));
+		TreeSet<String> alreadyKnown = new TreeSet<String>();
+		String currentLine;
+		int i = 0;
+			while ((currentLine = index.readLine()) != null){
+				if (Integer.valueOf(currentLine.split("#")[0])%500==0){
+					System.out.println(currentLine.split("#")[0]);
+				}
+				if (alreadyKnown.contains(currentLine.split("#")[4])){
+					System.out.println("Found Doubles : "+currentLine.split("#")[4]);
+				} else{
+					alreadyKnown.add(currentLine.split("#")[4]);
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 	}
 
 	private class CannotGetParsedDocumentException extends Exception {
