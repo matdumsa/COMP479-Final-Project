@@ -8,17 +8,12 @@ import info.mathieusavard.domain.index.spimi.SPIMIReconciliation;
 import info.mathieusavard.technicalservices.BenchmarkRow;
 import info.mathieusavard.technicalservices.Property;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.util.HashMap;
-import java.util.TreeSet;
 
 import websphinx.Crawler;
 import websphinx.DownloadParameters;
@@ -40,7 +35,7 @@ public class ConcreteCrawler extends Crawler {
 	// and lists home-page URLs of the academic faculty.  All the
 	// homepage URLs are assumed to obey the following pattern:
 	static Pattern concordiaDomain = 
-			new Wildcard ("http://*cs.concordia.ca/*");
+			new Wildcard ("http://users.encs.concordia.ca/*");
 
 	public ConcreteCrawler(Link root) {
 		super();
@@ -164,8 +159,8 @@ public class ConcreteCrawler extends Crawler {
 			out.write( page.getContentBytes());
 			out.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Can't get a hold of " + saveTo + ". Abording");
+			System.exit(1);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -179,7 +174,7 @@ public class ConcreteCrawler extends Crawler {
 		try {
 			BenchmarkRow br = new BenchmarkRow("total crawl+index time");
 			br.start();
-			crawler = new ConcreteCrawler(new Link("http://encs.concordia.ca/"));
+			crawler = new ConcreteCrawler(new Link("http://users.encs.concordia.ca/~comp479_2"));
 			crawler.run();
 			crawler.concludeCrawl();
 			br.stop();
