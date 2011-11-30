@@ -120,7 +120,7 @@ public class ConcreteCrawler extends Crawler {
 					if (currentPage%1000 == 0)
 						System.out.println("I am at page " + currentPage);
 					doc.setId(currentPage);
-					savePageToDisk(page, "../crawler_result/doc/" + currentPage);
+					savePageToDisk(page, "C:\\Users\\kevin\\workspace\\crawler_result\\doc\\" + currentPage);
 					IndexerThread.addDocument(doc);
 				}
 			} catch (CannotGetParsedDocumentException e) {
