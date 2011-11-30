@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 #basepath to the folder that contains the reut folder with xmls in it
 basepath=C:\\Users\\kevin\\workspace\\crawler_result
-
+=======
+#basepath to the folder that contains the index.txt and articles.txt and data folder, no slash at the end!
+basepath=/Users/matdumsa/git/crawler_result
+>>>>>>> 650b5da4de610fdd9a66a62bbdd03a2e656005fe
 
 #Number of parser thread to run simultaneously (default 4)
 numOfThreads=4
@@ -31,5 +35,4 @@ DefaultToOr=true
 enable_ranking=true
 
 #Use of WeightedCorpus
-
 weightedCorpus=true
