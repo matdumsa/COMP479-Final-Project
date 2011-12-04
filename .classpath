@@ -9,7 +9,9 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/websphinx.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/tika-app-1.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jstl-api-1.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jstl-impl-1.2.jar"/>
+	<classpathentry kind="lib" path="src/tika-app-1.0.jar"/>
+	<classpathentry kind="lib" path="src/websphinx.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

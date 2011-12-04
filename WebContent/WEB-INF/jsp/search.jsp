@@ -32,9 +32,6 @@
 
 	<c:forEach var="r" items="${resultset.results}">
 				<h3>
-				<!--	<a href="document/view/?d=${r.document.id }&q=${query}">
-						${r.document.title} </a>-->
-
 					<a href="${r.document.url}"> ${r.document.title} </a>	
 				</h3>
 			</c:forEach>
