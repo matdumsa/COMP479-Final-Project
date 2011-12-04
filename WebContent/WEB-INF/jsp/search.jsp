@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"
-	import="info.mathieusavard.domain.WebDocument,info.mathieusavard.domain.GenericDocument,java.util.List,info.mathieusavard.domain.queryprocessor.QueryProcessor,info.mathieusavard.technicalservices.BenchmarkRow"%>
+	import="finalproject.WebDocument,finalproject.GenericDocument,java.util.List,finalproject.queryprocessor.QueryProcessor,finalproject.technicalservices.BenchmarkRow"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 

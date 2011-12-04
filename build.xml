@@ -111,12 +111,12 @@
         <antcall target="build"/>
     </target>
     <target name="ConcreteCrawler">
-        <java classname="ca.concordia.comp479.crawling.ConcreteCrawler" failonerror="true" fork="yes">
+        <java classname="finalproject.crawler.engine.ConcreteCrawler" failonerror="true" fork="yes">
             <classpath refid="COMp479-Final-Project.classpath"/>
         </java>
     </target>
     <target name="Console">
-        <java classname="ca.concordia.comp479.application.Console" failonerror="true" fork="yes">
+        <java classname="finalproject.crawler.Console" failonerror="true" fork="yes">
             <classpath refid="COMp479-Final-Project.classpath"/>
         </java>
     </target>
