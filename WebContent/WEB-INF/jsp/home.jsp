@@ -23,7 +23,7 @@
 <body>
 	<div id="container">
         <div id="contact-form" class="clearfix">
-            <h1>Amazing Search Engine</h1>
+            <h1>Amazing Search Engine : caca</h1>
             <jsp:include page="searchForm.jsp" />
         </div>
     </div>
