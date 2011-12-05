@@ -27,14 +27,14 @@ public class Result implements Comparable<Result> {
 	 * USed for insertion in a sorted array.. the better the document the first you are
 	 */
 	public int compareTo(Result other) {
-			return  new Integer(this.document.getId()).compareTo(other.getDocument().getId());
+			return  this.document.compareTo(other.getDocument());
 	}
 
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof Result))
 			return false;
-		return (((Result) o).getDocument().getId() == getDocument().getId());
+		return (((Result) o).getDocument().equals(getDocument()));
 	}
 	
 	

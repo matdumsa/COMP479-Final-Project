@@ -47,8 +47,10 @@ public class WebDocument extends WeightedDocument {
 			} else{
 				if (w.getVector()==null || this.getVector()==null){
 					return false;
-				} else 
+				} else {
 					return w.getVector().equals(this.getVector());
+				}
+					
 			}
 
 		} else {

@@ -71,5 +71,13 @@ public class GenericDocument implements Comparable<GenericDocument> {
 	public int compareTo(GenericDocument o) {
 		return (new Integer(this.getId())).compareTo(o.getId());
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof GenericDocument)
+			return (this.getId()) == ((GenericDocument)o).getId();
+		else
+			return false;
+	}
 
 }

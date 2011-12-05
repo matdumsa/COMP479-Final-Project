@@ -76,12 +76,14 @@ public class VectorTermSpace {
 				return false;
 			} else {
 				for (Integer i : vector.keySet()){
-					for (Integer i2 : v.getVector().keySet()){
-						if (!i.equals(i2) || v.getVector().get(i2)!=this.vector.get(i)){
+					if (v.getVector().get(i)!=null){
+						if (!v.getVector().get(i).equals(this.vector.get(i))){
 							return false;
 						}
 					}
-
+					else {
+						return false;
+					}
 				}
 				return true;
 			}

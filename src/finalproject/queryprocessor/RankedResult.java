@@ -6,7 +6,7 @@ import finalproject.Posting;
 public class RankedResult extends Result{
 
 	private double rank;
-	
+
 	public RankedResult(GenericDocument document, double rank) {
 		super(document);
 		this.rank = rank;
@@ -20,8 +20,8 @@ public class RankedResult extends Result{
 	public double getRank() {
 		return rank;
 	}
-	
-	
+
+
 	@Override
 	/**
 	 * USed for insertion in a sorted array.. the better the result the first you are
@@ -31,18 +31,20 @@ public class RankedResult extends Result{
 			RankedResult rankOther = (RankedResult)other;
 			if (rankOther.getRank() == this.rank)
 				return  new Integer(this.getDocument().getId()).compareTo(other.getDocument().getId());
-			return Double.compare(rankOther.getRank(),this.rank);
+			else
+				return Double.compare(rankOther.getRank(),this.rank);
 		} else{
 			return -1;
 		}
-		
+
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof Result))
+		if (!(o instanceof RankedResult))
 			return false;
-		return (((Result) o).getDocument().getId() == getDocument().getId());
+		return (((RankedResult) o).getDocument().equals(getDocument()));
+
 	}
-	
+
 }
