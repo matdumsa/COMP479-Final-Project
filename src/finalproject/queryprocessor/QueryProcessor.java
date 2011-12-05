@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import finalproject.Posting;
+import finalproject.index.IndexSingleton;
 import finalproject.index.IndexerThread;
 import finalproject.index.spimi.DefaultInvertedIndex;
 import finalproject.queryprocessor.booleantree.InfixToPostfix;
@@ -17,7 +18,7 @@ import finalproject.technicalservices.Property;
 
 public class QueryProcessor {
 
-	private static DefaultInvertedIndex index = DefaultInvertedIndex.readFromFile("index.txt");
+	private static DefaultInvertedIndex index = IndexSingleton.getInstance();
 
 	private static Set<Posting> matchingDocId;
 	private static BenchmarkRow matchingTime;

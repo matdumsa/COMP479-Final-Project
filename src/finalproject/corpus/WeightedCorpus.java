@@ -11,6 +11,7 @@ import finalproject.GenericDocument;
 import finalproject.Posting;
 import finalproject.TaskComputeTFIDF;
 import finalproject.WeightedDocument;
+import finalproject.index.IndexSingleton;
 import finalproject.index.spimi.DefaultInvertedIndex;
 import finalproject.technicalservices.BenchmarkRow;
 
@@ -39,7 +40,7 @@ public class WeightedCorpus extends Corpus {
 		BenchmarkRow bench = new BenchmarkRow("Generating TFIFD with " + NUMBER_OF_THREAD + " workers");
 		bench.start();
 
-		index = DefaultInvertedIndex.readFromFile("index.txt");
+		index = IndexSingleton.getInstance();
 		if (index.validate() == false)
 			throw new RuntimeException("Invalid index, cannot compute TFIDF on an invalid index");
 
