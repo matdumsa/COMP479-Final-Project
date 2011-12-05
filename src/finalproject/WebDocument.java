@@ -37,7 +37,7 @@ public class WebDocument extends WeightedDocument {
 	public String getUrl(){
 		return url;
 	}
-
+	
 	@Override
 	public boolean equals(Object o){
 		if (o instanceof WebDocument){
