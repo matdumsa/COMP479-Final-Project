@@ -38,7 +38,7 @@ public class KMeansClustering {
 	}
 
 	public Collection<WeightedDocument> peekAtClusters(int clusterNo, int numberOfDocument) {
-		return clusterList.get(clusterNo).subList(0,numberOfDocument);
+		return clusterList.get(clusterNo).subList(numberOfDocument);
 	}
 
 	public void performClustering() {

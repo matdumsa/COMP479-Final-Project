@@ -30,7 +30,7 @@ public class WeightedDocument extends GenericDocument{
 			if (this.getId() == ((GenericDocument)o).getId()){
 				return true;
 			} else{
-				return (this.getVector()) == ((WeightedDocument)o).getVector();
+				return (this.getVector()).equals(((WeightedDocument)o).getVector());
 			}
 		else
 			return false;

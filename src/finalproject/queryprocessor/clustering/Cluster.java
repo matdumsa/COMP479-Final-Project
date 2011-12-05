@@ -50,10 +50,22 @@ public class Cluster {
 		return getCentroid();
 	}
 
-	public Collection<WeightedDocument> subList(int i, int numberOfDocument) {
+	public Collection<WeightedDocument> subList(int numberOfDocument) {
+		LinkedList<WeightedDocument> list = new LinkedList<WeightedDocument>();
+		int currentSize = 0;
+		int numberPass = 0;
+		while (currentSize < numberOfDocument && currentSize < members.size()){
+			for(WeightedDocument w : members.subList(numberPass*numberOfDocument, Math.min(numberOfDocument, members.size()))){
+				if (!list.contains(w)){
+					list.add(w);
+				}
+				currentSize++;
+			}
+			numberPass++;
+		}
 		if (members.size() < numberOfDocument)
 			return members;
-		return members.subList(i, numberOfDocument);
+		return list;
 		
 	}
 	
