@@ -1,7 +1,5 @@
 package finalproject.reuters;
 
-import finalproject.technicalservices.Utils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -21,6 +19,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import finalproject.technicalservices.Utils;
 
 public class XMLSharding {
 

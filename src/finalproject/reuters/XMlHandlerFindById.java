@@ -1,10 +1,10 @@
 package finalproject.reuters;
 
-import finalproject.technicalservices.HtmlEntities;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import finalproject.technicalservices.HtmlEntities;
 
 public class XMlHandlerFindById extends DefaultHandler {
 

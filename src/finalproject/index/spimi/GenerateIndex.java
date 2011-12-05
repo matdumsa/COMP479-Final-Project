@@ -1,4 +1,6 @@
 package finalproject.index.spimi;
+import java.util.ArrayList;
+
 import finalproject.index.DiskReaderThread;
 import finalproject.index.IndexerThread;
 import finalproject.reuters.XMLSharding;
@@ -6,8 +8,6 @@ import finalproject.technicalservices.Benchmark;
 import finalproject.technicalservices.Constants;
 import finalproject.technicalservices.Property;
 import finalproject.technicalservices.Utils;
-
-import java.util.ArrayList;
 
 
 public class GenerateIndex {

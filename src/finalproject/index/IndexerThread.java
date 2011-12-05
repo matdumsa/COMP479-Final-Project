@@ -1,4 +1,9 @@
 package finalproject.index;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+
 import finalproject.GenericDocument;
 import finalproject.corpus.CorpusFactory;
 import finalproject.index.compression.Stemmer;
@@ -6,11 +11,6 @@ import finalproject.index.compression.StopwordRemover;
 import finalproject.index.spimi.SPIMIInvertedIndex;
 import finalproject.technicalservices.Property;
 import finalproject.technicalservices.Utils;
-
-import java.util.LinkedList;
-import java.util.StringTokenizer;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 
 public class IndexerThread extends Thread {

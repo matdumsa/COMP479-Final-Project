@@ -13,7 +13,6 @@ import finalproject.GenericDocument;
 import finalproject.WeightedDocument;
 import finalproject.corpus.Corpus;
 import finalproject.index.spimi.DefaultInvertedIndex;
-import finalproject.queryprocessor.Result;
 import finalproject.technicalservices.BenchmarkRow;
 
 public class KMeansClustering {

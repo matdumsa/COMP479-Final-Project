@@ -1,9 +1,5 @@
 package finalproject.index.spimi;
 
-import finalproject.Posting;
-import finalproject.corpus.CorpusFactory;
-import finalproject.technicalservices.Constants;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,6 +8,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.HashSet;
+
+import finalproject.Posting;
+import finalproject.corpus.CorpusFactory;
+import finalproject.technicalservices.Constants;
 
 
 public class SPIMIReconciliation {

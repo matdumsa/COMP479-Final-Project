@@ -1,12 +1,12 @@
 package finalproject.index.spimi;
 
-import finalproject.Posting;
-import finalproject.technicalservices.Property;
-
 import java.util.AbstractSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import finalproject.Posting;
+import finalproject.technicalservices.Property;
 
 public class SPIMIInvertedIndex implements IInvertedIndex {
 

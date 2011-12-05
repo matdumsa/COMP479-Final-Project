@@ -1,11 +1,11 @@
 package finalproject.reuters;
 
-import finalproject.index.IndexerThread;
-import finalproject.technicalservices.HtmlEntities;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import finalproject.index.IndexerThread;
+import finalproject.technicalservices.HtmlEntities;
 
 public class XMLHandlerListAll extends DefaultHandler {
 	boolean isText = false;

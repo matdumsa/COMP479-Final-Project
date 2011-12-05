@@ -1,6 +1,5 @@
 package finalproject.queryprocessor.spelling;
 import finalproject.index.IndexSingleton;
-import finalproject.index.spimi.DefaultInvertedIndex;
 import finalproject.index.spimi.IInvertedIndex;
 
 public class fromIndex {

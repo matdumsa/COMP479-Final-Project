@@ -1,15 +1,15 @@
 package finalproject.application.web;
 
-import finalproject.index.DiskReaderThread;
-import finalproject.reuters.ReutersDocument;
-import finalproject.technicalservices.BenchmarkRow;
-
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import finalproject.index.DiskReaderThread;
+import finalproject.reuters.ReutersDocument;
+import finalproject.technicalservices.BenchmarkRow;
 
 public class CommandDocumentView extends Command {
 
