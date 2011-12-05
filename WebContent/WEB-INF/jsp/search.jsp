@@ -3,6 +3,7 @@
 	import="finalproject.WebDocument,finalproject.GenericDocument,java.util.List,finalproject.queryprocessor.QueryProcessor,finalproject.technicalservices.BenchmarkRow"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -31,12 +32,15 @@
 			</c:when>
 	 </c:choose>
 	I found ${resultcount} results in ${timetomatch} ms.
-
+	<% int i = 1; 
+	
+	%>
 	<c:forEach var="r" items="${resultset.results}">
 				<h3>
-					<a href="${r.document.url}"> <font size="3">${r.document.title}</font> </a><br/> <font size="2">(${r.document.url})</font>
+					<%=i %> - <font size="3"> <fmt:formatNumber type="number" maxIntegerDigits="3" maxFractionDigits="2" value="${r.rank}"/> - </font><a href="${r.document.url}"> <font size="3">${r.document.title}</font> </a><br/> <font size="2">(${r.document.url})</font>
 				</h3>
-			</c:forEach>
+				<%i++; %>
+	</c:forEach>
 		</c:otherwise>
 	</c:choose>
 </body>
