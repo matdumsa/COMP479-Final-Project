@@ -12,32 +12,15 @@
 </head>
 <body>
 	<jsp:include page="searchForm.jsp" />
-	<c:choose>
-		<c:when test="${resultcount == 0}">
-			<h2>
-				Sorry, no results have been found for ${query}
-			</h2>
-		</c:when>
-		<c:otherwise>
-	
-	For Query : ${resultset.userInputQuery}
-	</br>
-	</br>
-	<c:choose>
-			<c:when test="${resultset.suggestedQuery != null}">
-			<h2>
-				<font size="3" color="red">Did you mean ?</font> <font size="3">${resultset.suggestedQuery }</font>
-			</h2>
-			</c:when>
-	 </c:choose>
-	I found ${resultcount} results in ${timetomatch} ms.
-
-	<c:forEach var="r" items="${resultset.results}">
+	<% int i = 1; %>
+	<c:forEach var="list" items="${clusters.results}">
+		<h2> Cluster <%=i %> </h2>
+		<c:forEach var="document" items="${list }">
 				<h3>
-					<a href="${r.document.url}"> ${r.document.title} </a>	
+					<a href="${document.url}"> <font size="3">${document.title}</font> </a><br/> <font size="2">(${document.url})</font>
 				</h3>
-			</c:forEach>
-		</c:otherwise>
-	</c:choose>
+		</c:forEach>
+		<%i++; %>
+	</c:forEach>
 </body>
 </html>

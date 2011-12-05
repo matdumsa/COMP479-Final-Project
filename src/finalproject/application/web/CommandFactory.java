@@ -10,6 +10,7 @@ public class CommandFactory {
 		//Each registered controller class should be named here.
 		commandStore.put("/search", CommandSearch.class);
 		commandStore.put("/document/view", CommandDocumentView.class);
+		commandStore.put("/cluster", CommandClustering.class);
 	}
 
 	

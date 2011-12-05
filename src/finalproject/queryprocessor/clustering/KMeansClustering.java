@@ -13,6 +13,7 @@ import finalproject.GenericDocument;
 import finalproject.WeightedDocument;
 import finalproject.corpus.Corpus;
 import finalproject.index.spimi.DefaultInvertedIndex;
+import finalproject.queryprocessor.Result;
 import finalproject.technicalservices.BenchmarkRow;
 
 public class KMeansClustering {
@@ -97,5 +98,17 @@ public class KMeansClustering {
 
 	public int getClusterCount() {
 		return k;
+	}
+	
+	public List<Cluster> getClusterList() {
+		return clusterList;
+	}
+
+	public ResultCluster createResultCluster() {
+		ResultCluster result = new ResultCluster();
+		for (int x=0; x<getClusterCount(); x++) {
+			result.add(peekAtClusters(x, 10));
+		}
+		return result;
 	}
 }
