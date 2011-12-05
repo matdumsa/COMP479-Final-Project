@@ -14,23 +14,23 @@
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
-	<link rel="shortcut icon" href="/favicon.ico">
-	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-	<link rel="stylesheet" href="/css/style.css?v=2">
+	<link rel="shortcut icon" href="http://localhost:8080/COMp479-Final-Project/static/favicon.ico">
+	<link rel="apple-touch-icon" href="http://localhost:8080/COMp479-Final-Project/static/apple-touch-icon.png">
+	<link rel="stylesheet" href="http://localhost:8080/COMp479-Final-Project/static/css/style.css?v=2">
 
 	<script src="/js/libs/modernizr-1.7.min.js"></script>
 </head>
 <body>
 	<div id="container">
         <div id="contact-form" class="clearfix">
-            <h1>Amazing Search Engine : caca</h1>
+            <h1>Amazing Search Enginea</h1>
             <jsp:include page="searchForm.jsp" />
         </div>
     </div>
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> 
-	<script src="/js/plugins.js"></script>
-	<script src="/js/script.js"></script>
+	<script src="http://localhost:8080/COMp479-Final-Project/static/js/plugins.js"></script>
+	<script src="http://localhost:8080/COMp479-Final-Project/static/js/script.js"></script>
 	<!--[if lt IE 7 ]>
 	<script src="/js/libs/dd_belatedpng.js"></script>
 	<script> DD_belatedPNG.fix('img, .png_bg');</script>

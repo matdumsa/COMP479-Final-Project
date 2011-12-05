@@ -34,7 +34,7 @@
 
 	<c:forEach var="r" items="${resultset.results}">
 				<h3>
-					<a href="${r.document.url}"> ${r.document.title} </a>	
+					<a href="${r.document.url}"> <font size="3">${r.document.title}</font> </a><br/> <font size="2">(${r.document.url})</font>
 				</h3>
 			</c:forEach>
 		</c:otherwise>
