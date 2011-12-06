@@ -35,6 +35,11 @@ public class WeightedDocument extends GenericDocument{
 		else
 			return false;
 	}
+
+	public static WeightedDocument create(GenericDocument d) {
+		
+		return new WeightedDocument(d.getId(), d.getTitle());
+	}
 	
 	
 }

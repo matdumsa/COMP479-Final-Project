@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.TreeMap;
 
 import finalproject.GenericDocument;
+import finalproject.WeightedDocument;
 import finalproject.technicalservices.Constants;
 
 public class Corpus implements Iterable<GenericDocument>{
@@ -82,7 +83,7 @@ public class Corpus implements Iterable<GenericDocument>{
 				try {
 					Method factoryMethod = factory.getDeclaredMethod("fromString", String.class);
 					GenericDocument d = (GenericDocument) factoryMethod.invoke(null, line);
-					newCorpus.documentMap.put(d.getId(), d);
+					newCorpus.documentMap.put(d.getId(), WeightedDocument.create(d));
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

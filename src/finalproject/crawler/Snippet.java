@@ -4,6 +4,7 @@ package finalproject.crawler;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import finalproject.GenericDocument;
 import finalproject.corpus.Corpus;
 import finalproject.corpus.CorpusFactory;
 import finalproject.index.compression.StopwordRemover;
@@ -17,9 +18,11 @@ public class Snippet {
 	}
 	
 	public String findsnippet(int docid, String query, Corpus corpus){
-		String txt = corpus.findArticle(docid).toString();
-		System.out.print(txt);
-		ArrayList<String> words = new ArrayList<String>(Arrays.asList(txt.split(" ")));
+		GenericDocument txt = corpus.findArticle(docid);
+		
+		ArrayList<String> words = new ArrayList<String>(Arrays.asList(txt.getText()));
+		
+		
 		
 		String[] terms = query.split(" ");
 		String output = "";
