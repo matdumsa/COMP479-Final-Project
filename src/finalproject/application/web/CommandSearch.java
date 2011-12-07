@@ -7,8 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import finalproject.crawler.Snippet;
 import finalproject.queryprocessor.QueryProcessor;
 import finalproject.queryprocessor.ResultSet;
+import finalproject.queryprocessor.Result;
 import finalproject.queryprocessor.booleantree.InvalidQueryException;
 
 public class CommandSearch extends Command {
@@ -25,6 +27,10 @@ public class CommandSearch extends Command {
 		try {
 			resultset = QueryProcessor.performQuery(query);
 			
+			for(Result r : resultset){
+				r.getDocument().setText(Snippet.findsnippet(r.getDocument().getId(), resultset.getUserInputQuery()));
+
+			}
 		} catch (InvalidQueryException e) {
 			throw new ServletException(e);
 		}

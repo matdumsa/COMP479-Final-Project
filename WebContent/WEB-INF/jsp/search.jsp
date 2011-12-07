@@ -37,7 +37,11 @@
 	%>
 	<c:forEach var="r" items="${resultset.results}">
 				<h3>
-					<%=i %> - <font size="3"> <fmt:formatNumber type="number" maxIntegerDigits="3" maxFractionDigits="2" value="${r.rank}"/> - </font><a href="${r.document.url}"> <font size="3">${r.document.title}</font> </a><br/> <font size="2">(${r.document.url})</font>
+					<%=i %> - <font size="3"> 
+								<fmt:formatNumber type="number" maxIntegerDigits="3" maxFractionDigits="2" value="${r.rank}"/> - </font>
+								<a href="${r.document.url}"> <font size="3">${r.document.title}</font> </a><br/> 
+								<font size="2">(${r.document.url})</font><br/>
+								<font size="2">(${r.document.text})</font>
 				</h3>
 				<%i++; %>
 	</c:forEach>
