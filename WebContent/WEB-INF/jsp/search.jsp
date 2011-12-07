@@ -4,48 +4,77 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!doctype html>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Search results for ${query}></title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+	<title>Search results for ${query}></title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" href="/COMp479-Final-Project/static/favicon.ico">
+	<link rel="apple-touch-icon" href="/COMp479-Final-Project/static/apple-touch-icon.png">
+	<link rel="stylesheet" href="/COMp479-Final-Project/static/css/style.css?v=2">
+
+	<script src="/js/libs/modernizr-1.7.min.js"></script>
 </head>
 <body>
-	<jsp:include page="searchForm.jsp" />
-	<c:choose>
-		<c:when test="${resultcount == 0}">
-			<h2>
-				Sorry, no results have been found for ${query}
-			</h2>
-		</c:when>
-		<c:otherwise>
-	
-	For Query : ${resultset.userInputQuery}
-	</br>
-	</br>
-	<c:choose>
-			<c:when test="${resultset.suggestedQuery != null}">
-			<h2>
-				<font size="3" color="red">Did you mean ?</font> <font size="3">${resultset.suggestedQuery }</font>
-			</h2>
-			</c:when>
-	 </c:choose>
-	I found ${resultcount} results in ${timetomatch} ms.
+	<div id="container">
+        <div id="contact-form" class="clearfix">
+            <h1>Amazing Search Engines</h1>
+            <jsp:include page="searchForm.jsp" />
+			<c:choose>
+				<c:when test="${resultcount == 0}">
+					<h2>
+						Sorry, no results have been found for ${query}
+					</h2>
+				</c:when>
+				<c:otherwise>
+			
+			For Query : ${resultset.userInputQuery}
+			</br>
+			</br>
+			<c:choose>
+					<c:when test="${resultset.suggestedQuery != null}">
+					<h2>
+						<font size="3" color="red">Did you mean ?</font> <font size="3">${resultset.suggestedQuery }</font>
+					</h2>
+					</c:when>
+			 </c:choose>
+			I found ${resultcount} results in ${timetomatch} ms.
+        </div>
 	<% int i = 1; 
 	
 	%>
 	<c:forEach var="r" items="${resultset.results}">
-				<h3>
-					<%=i %> - <font size="3"> 
-								<fmt:formatNumber type="number" maxIntegerDigits="3" maxFractionDigits="2" value="${r.rank}"/> - </font>
-								<a href="${r.document.url}"> <font size="3">${r.document.title}</font> </a><br/> 
-								<font size="2">(${r.document.url})</font><br/>
-								<font size="2">(${r.document.text})</font>
-				</h3>
+				<div id="box">
+					<h1> 
+						<%=i %> - <fmt:formatNumber type="number" maxIntegerDigits="3" maxFractionDigits="2" value="${r.rank}"/> - <a href="${r.document.url}"> ${r.document.title} </a>
+					</h1><br/> 
+					${r.document.url}<hr>
+					${r.document.text}
+				</div>
 				<%i++; %>
 	</c:forEach>
 		</c:otherwise>
 	</c:choose>
+	</div>
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+	<script>!window.jQuery && document.write(unescape('%3Cscript src="js/libs/jquery-1.5.1.min.js"%3E%3C/script%3E'))</script>
+	<script src="js/plugins.js"></script>
+	<script src="js/script.js"></script>
+	<!--[if lt IE 7 ]>
+	<script src="js/libs/dd_belatedpng.js"></script>
+	<script> DD_belatedPNG.fix('img, .png_bg');</script>
+	<![endif]-->
 </body>
 </html>
