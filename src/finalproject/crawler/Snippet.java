@@ -15,7 +15,7 @@ public class Snippet {
 	
 	public static void main(String[] args) {
 
-		System.out.print(Snippet.findsnippet(5684,"registrar"));
+		System.out.print(Snippet.findsnippet(5684,"registrar schedule"));
 
 	}
 	
@@ -34,7 +34,7 @@ public class Snippet {
 		for(String word : words)
 		{
 			output += word+" "; 
-			if(words.indexOf(word)%4==0)
+			if(words.indexOf(word)%5==0)
 			{
 				phrases.add(output);
 				output = "";
@@ -45,11 +45,17 @@ public class Snippet {
 		for(String sterm : terms){
 			if(!StopwordRemover.stopwords.contains(sterm))
 			{
+				int count = 0;
 				for(String phrase : phrases)
 				{
-					if(phrase.contains(sterm))
+					if(phrase.contains(sterm)&count<2)
 					{
-						output += phrase+"...";		
+						output += phrase+"...";
+						count++;
+					}
+					else if(count>2)
+					{
+						break;
 					}
 				}
 			}
@@ -64,19 +70,6 @@ public class Snippet {
 		return output.replaceAll("\\<[^>]*>","").replaceAll("\\&.*?\\;", "").replaceAll("\\s+", " ");
 	}
 	
-//	public static String getPageContentById(int id) {
-//		String path = Constants.basepath + "/data/" + id;
-//		File inputFile = new File(path);
-//		String output;
-//		try {
-//			output = Jsoup.parse(inputFile, "UTF-8", "").text();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			output = null;
-//		}
-//		return output;
-//	}
 	
 	private static String readFile(String path) throws IOException {
 		  FileInputStream stream = new FileInputStream(new File(path));
