@@ -38,10 +38,11 @@
 					</h2>
 				</c:when>
 				<c:otherwise>
-			
+				</c:otherwise>
+			</c:choose>
 			For Query : ${resultset.userInputQuery}
-			</br>
-			</br>
+			<br/>
+			<br/>
 			<c:choose>
 					<c:when test="${resultset.suggestedQuery != null}">
 					<h2>
@@ -64,8 +65,6 @@
 				</div>
 				<%i++; %>
 	</c:forEach>
-		</c:otherwise>
-	</c:choose>
 	</div>
 	
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>

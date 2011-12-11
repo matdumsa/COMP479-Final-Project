@@ -148,7 +148,7 @@ a:hover { color: #036; }
 	position:relative;
 }
 
-#box h1 {
+.box h1 {
 	font-size:18px;
 }
 #contact-form h1 {

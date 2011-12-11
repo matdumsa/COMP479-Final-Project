@@ -15,7 +15,7 @@ public class Snippet {
 	
 	public static void main(String[] args) {
 
-		System.out.print(Snippet.findsnippet(5684,"schedules dynamic gholi registrar"));
+		System.out.print(Snippet.findsnippet(5684,"registrar"));
 
 	}
 	
@@ -29,44 +29,27 @@ public class Snippet {
 			e.printStackTrace();
 		}
 		ArrayList<String> words = new ArrayList<String>(Arrays.asList(contentTerms));
-		
-		String[] terms = query.toLowerCase().split(" ");
+		ArrayList<String> phrases = new ArrayList<String>();
 		String output = "";
-		for(String q : terms){
-			if(!StopwordRemover.stopwords.contains(q) && words.contains(q))
+		for(String word : words)
+		{
+			output += word+" "; 
+			if(words.indexOf(word)%4==0)
 			{
-				int termposition = words.indexOf(q);
-				if(termposition>2)
+				phrases.add(output);
+				output = "";
+			}
+		}
+		output = "";
+		String[] terms = query.toLowerCase().split(" ");
+		for(String sterm : terms){
+			if(!StopwordRemover.stopwords.contains(sterm))
+			{
+				for(String phrase : phrases)
 				{
-					if(termposition+2<words.size())
+					if(phrase.contains(sterm))
 					{
-						output += words.get(termposition-2)+" "+
-								 words.get(termposition-1)+" "+
-								 words.get(termposition)+" "+
-								 words.get(termposition+1)+" "+
-								 words.get(termposition+2)+"....";
-					}
-				}
-				else if(termposition>1)
-				{
-					if(termposition+3<words.size())
-					{
-						output += words.get(termposition-1)+" "+
-								 words.get(termposition)+" "+
-								 words.get(termposition+1)+" "+
-								 words.get(termposition+2)+" "+
-								 words.get(termposition+3)+" "+"....";						
-					}
-				}
-				else if(termposition>0)
-				{
-					if(termposition+4<words.size())
-					{
-						output += words.get(termposition)+" "+
-								 words.get(termposition+1)+" "+
-								 words.get(termposition+2)+" "+
-								 words.get(termposition+3)+" "+
-								 words.get(termposition+4)+" "+"....";						
+						output += phrase+"...";		
 					}
 				}
 			}
