@@ -57,6 +57,9 @@
 				<div id="box">
 					<h1> 
 						<%=i %> - <fmt:formatNumber type="number" maxIntegerDigits="3" maxFractionDigits="2" value="${r.rank}"/> - <a href="${r.document.url}"> ${r.document.title} </a>
+						<c:if test="${ r.document.cluster != null}">
+							<small>found in ${r.document.cluster.name }</small>
+						</c:if>
 					</h1><br/> 
 					${r.document.url}<hr>
 					${r.document.text}

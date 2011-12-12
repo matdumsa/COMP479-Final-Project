@@ -25,6 +25,7 @@ public class KMeansClustering {
 	private int NUMBER_OF_THREAD = Runtime.getRuntime().availableProcessors();;
 	private long lastClustering = 0;
 	private Corpus corpus;
+	private LinkedList<ClusteringTask> clusteringTask;
 	
 	/**
 	 * Create a clustering engine for the given corpus and index
@@ -38,7 +39,7 @@ public class KMeansClustering {
 		for (int x=0; x< k; x++)
 			clusterList.add(new Cluster("Cluster " + x));
 	}
-
+	
 	/**
 	 * Peek at a given cluster number and retrieve numberOfDocument from it
 	 * @param clusterNo
@@ -72,7 +73,7 @@ public class KMeansClustering {
 		}
 
 		System.out.println("Initializing each document in a random cluster");
-		LinkedList<ClusteringTask> clusteringTask = new LinkedList<ClusteringTask>();
+		clusteringTask = new LinkedList<ClusteringTask>();
 		while (docList.isEmpty() == false) {
 			WeightedDocument document = docList.poll();
 			if (document.getVector() != null) {

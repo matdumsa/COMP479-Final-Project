@@ -3,6 +3,8 @@
  */
 package finalproject;
 
+import finalproject.queryprocessor.clustering.Cluster;
+
 
 /**
  * This class represents a Weigthted Document, i.e. a Document that could be ranked.
@@ -11,7 +13,16 @@ package finalproject;
  */
 public class WeightedDocument extends GenericDocument{
 	
+	private Cluster currentCluster;
 	private VectorTermSpace vector;
+	
+	public void setCluster(Cluster cluster) {
+		this.currentCluster = cluster;
+	}
+	
+	public Cluster getCluster() {
+		return currentCluster;
+	}
 	
 	public WeightedDocument(int id, String title) {
 		super(id, title);
