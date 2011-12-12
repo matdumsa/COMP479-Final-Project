@@ -87,7 +87,7 @@ public class Cluster {
 
 		LinkedList<WeightedDocument> finalResult = new LinkedList<WeightedDocument>();
 		int x=1;
-		while (x<numberOfDocument && finalResult.size() > 0) {
+		while (x<numberOfDocument && result.size() > 0) {
 			finalResult.add(result.pollFirstEntry().getValue());
 			x++;
 		}
