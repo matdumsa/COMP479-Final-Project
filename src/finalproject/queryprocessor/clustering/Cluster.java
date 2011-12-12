@@ -1,10 +1,8 @@
 package finalproject.queryprocessor.clustering;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import finalproject.VectorTermSpace;
 import finalproject.WeightedDocument;
@@ -16,6 +14,10 @@ public class Cluster {
 	private VectorTermSpace cachedCentroid = null;
 
 
+	public int size() {
+		return members.size();
+	}
+	
 	public String getName() { return name; }
 
 	/**
