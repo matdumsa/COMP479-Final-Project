@@ -6,71 +6,51 @@
               as the first entry and export the buildfile again. -->
 <project basedir="." default="build" name="COMp479-Final-Project">
     <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="../../../../Applications/eclipse indigo"/>
-    <property name="InformationRetrieval.location" value="../Simple-Java-Inverted-Index-Generator"/>
+    <property name="ECLIPSE_HOME" value="../../../../../Applications/eclipse indigo"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.6"/>
     <property name="source" value="1.6"/>
-    <path id="Web App Libraries.libraryclasspath"/>
-    <path id="EAR Libraries.libraryclasspath"/>
-    <path id="Apache Tomcat v6.0 [Apache Tomcat v6.0].libraryclasspath">
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/annotations-api.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/catalina-ant.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/catalina-ha.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/catalina-tribes.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/catalina.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/ecj-3.3.1.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/el-api.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/jasper-el.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/jasper.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/jsp-api.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/servlet-api.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/tomcat-coyote.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/tomcat-dbcp.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/tomcat-i18n-es.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/tomcat-i18n-fr.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-6.0.33/lib/tomcat-i18n-ja.jar"/>
-    </path>
-    <path id="InformationRetrieval.classpath">
-        <pathelement location="${InformationRetrieval.location}/bin"/>
-        <path refid="Web App Libraries.libraryclasspath"/>
-        <path refid="EAR Libraries.libraryclasspath"/>
-        <path refid="Apache Tomcat v6.0 [Apache Tomcat v6.0].libraryclasspath"/>
-    </path>
     <path id="Apache Tomcat v7.0 [Apache Tomcat v7.0].libraryclasspath">
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/annotations-api.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/catalina-ant.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/catalina-ha.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/catalina-tribes.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/catalina.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/ecj-3.7.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/el-api.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/jasper-el.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/jasper.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/jsp-api.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/servlet-api.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/tomcat-api.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/tomcat-coyote.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/tomcat-dbcp.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/tomcat-i18n-es.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/tomcat-i18n-fr.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/tomcat-i18n-ja.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/tomcat-jdbc.jar"/>
-        <pathelement location="../../Downloads/apache-tomcat-7.0.21/lib/tomcat-util.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/annotations-api.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/catalina-ant.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/catalina-ha.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/catalina-tribes.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/catalina.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/ecj-3.7.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/el-api.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/jasper-el.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/jasper.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/jsp-api.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/servlet-api.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/tomcat-api.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/tomcat-coyote.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/tomcat-dbcp.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/tomcat-i18n-es.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/tomcat-i18n-fr.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/tomcat-i18n-ja.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/tomcat-jdbc.jar"/>
+        <pathelement location="../../../Downloads/apache-tomcat-7.0.21/lib/tomcat-util.jar"/>
     </path>
+    <path id="Web App Libraries.libraryclasspath">
+        <pathelement location="WebContent/WEB-INF/lib/jstl-api-1.2.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jstl-impl-1.2.jar"/>
+    </path>
+    <path id="EAR Libraries.libraryclasspath"/>
     <path id="COMp479-Final-Project.classpath">
         <pathelement location="build/classes"/>
-        <path refid="InformationRetrieval.classpath"/>
         <path refid="Apache Tomcat v7.0 [Apache Tomcat v7.0].libraryclasspath"/>
         <path refid="Web App Libraries.libraryclasspath"/>
         <path refid="EAR Libraries.libraryclasspath"/>
-        <pathelement location="WebContent/WEB-INF/lib/websphinx.jar"/>
-        <pathelement location="WebContent/WEB-INF/lib/tika-app-1.0.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jstl-api-1.2.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jstl-impl-1.2.jar"/>
+        <pathelement location="src/tika-app-1.0.jar"/>
+        <pathelement location="src/websphinx.jar"/>
     </path>
     <target name="init">
         <mkdir dir="build/classes"/>
         <copy includeemptydirs="false" todir="build/classes">
             <fileset dir="src">
+                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -78,17 +58,9 @@
     <target name="clean">
         <delete dir="build/classes"/>
     </target>
-    <target depends="clean" name="cleanall">
-        <ant antfile="build.xml" dir="${InformationRetrieval.location}" inheritAll="false" target="clean"/>
-    </target>
+    <target depends="clean" name="cleanall"/>
     <target depends="build-subprojects,build-project" name="build"/>
-    <target name="build-subprojects">
-        <ant antfile="build.xml" dir="${InformationRetrieval.location}" inheritAll="false" target="build-project">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-    </target>
+    <target name="build-subprojects"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="build/classes" source="${source}" target="${target}">
@@ -110,13 +82,48 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
+    <target name="ArithmeticTreeMain">
+        <java classname="finalproject.queryprocessor.booleantree.ArithmeticTreeMain" failonerror="true" fork="yes">
+            <classpath refid="COMp479-Final-Project.classpath"/>
+        </java>
+    </target>
     <target name="ConcreteCrawler">
         <java classname="finalproject.crawler.engine.ConcreteCrawler" failonerror="true" fork="yes">
             <classpath refid="COMp479-Final-Project.classpath"/>
         </java>
     </target>
-    <target name="Console">
+    <target name="CrawlerConsole">
         <java classname="finalproject.application.console.CrawlerConsole" failonerror="true" fork="yes">
+            <classpath refid="COMp479-Final-Project.classpath"/>
+        </java>
+    </target>
+    <target name="GenerateIndex (2)">
+        <java classname="finalproject.index.spimi.GenerateIndex" failonerror="true" fork="yes">
+            <classpath refid="COMp479-Final-Project.classpath"/>
+        </java>
+    </target>
+    <target name="InfixToPostfix">
+        <java classname="finalproject.queryprocessor.booleantree.InfixToPostfix" failonerror="true" fork="yes">
+            <classpath refid="COMp479-Final-Project.classpath"/>
+        </java>
+    </target>
+    <target name="InteractiveQuery">
+        <java classname="finalproject.application.console.InteractiveQuery" failonerror="true" fork="yes">
+            <classpath refid="COMp479-Final-Project.classpath"/>
+        </java>
+    </target>
+    <target name="Stemmer (1)">
+        <java classname="finalproject.index.compression.Stemmer" failonerror="true" fork="yes">
+            <classpath refid="COMp479-Final-Project.classpath"/>
+        </java>
+    </target>
+    <target name="test">
+        <java classname="finalproject.queryprocessor.booleantree.test" failonerror="true" fork="yes">
+            <classpath refid="COMp479-Final-Project.classpath"/>
+        </java>
+    </target>
+    <target name="XMLHandlerListAll">
+        <java classname="finalproject.reuters.XMLHandlerListAll" failonerror="true" fork="yes">
             <classpath refid="COMp479-Final-Project.classpath"/>
         </java>
     </target>
