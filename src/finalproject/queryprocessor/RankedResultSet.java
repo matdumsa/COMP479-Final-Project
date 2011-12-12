@@ -32,7 +32,10 @@ public class RankedResultSet extends ResultSet {
 			List<Result> alreadyDone = new LinkedList<Result>();
 			// Looking to rank each document in regards to query positive terms.
 			for (Posting p : matchingDocument) {
-				RankedResult result = makeRank(CorpusFactory.getCorpus().findArticle(p.getDocumentId()));
+				GenericDocument document = CorpusFactory.getCorpus().findArticle(p.getDocumentId());
+				if (document == null)
+					continue;
+				RankedResult result = makeRank(document);
 				if (alreadyDone.contains(result)){
 					System.out.println("Double : " + result.getDocument().getId());
 				} else{
