@@ -1,8 +1,6 @@
 package finalproject.queryprocessor;
 
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.TreeSet;
 
 import finalproject.GenericDocument;
@@ -31,19 +29,13 @@ public class RankedResultSet extends ResultSet {
 	 */
 	private Collection<Result> generateResult(String queryPositiveTerms, Collection<Posting> matchingDocument) {
 			TreeSet<Result> results = new TreeSet<Result>();
-			List<Result> alreadyDone = new LinkedList<Result>();
 			// Looking to rank each document in regards to query positive terms.
 			for (Posting p : matchingDocument) {
 				GenericDocument document = CorpusFactory.getCorpus().findArticle(p.getDocumentId());
 				if (document == null)
 					continue;
 				RankedResult result = makeRank(document);
-				if (alreadyDone.contains(result)){
-					System.out.println("Double : " + result.getDocument().getId());
-				} else{
 					results.add(result);
-					alreadyDone.add(result);
-				}
 
 			}
 			System.out.println("Done ranking " +matchingDocument.size() +":"+ results.size() + " results");
