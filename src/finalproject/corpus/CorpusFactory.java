@@ -31,7 +31,9 @@ public class CorpusFactory {
 				Class<? extends GenericDocument> documentTemplate = (Class<? extends GenericDocument>) Class.forName(Property.get("documentTemplate"));
 				
 				//Load an index
-				DefaultInvertedIndex index = IndexSingleton.getInstance(true);
+				
+				DefaultInvertedIndex index;
+				index = IndexSingleton.getInstance(emptyCorpus);
 				
 				String corpusType = Property.get("corpusType");
 				if (corpusType.equalsIgnoreCase("finalproject.corpus.ClusteredWeightedCorpus"))
