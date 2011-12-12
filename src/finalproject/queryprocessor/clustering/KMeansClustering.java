@@ -24,6 +24,11 @@ public class KMeansClustering {
 	private DefaultInvertedIndex index;
 	private int NUMBER_OF_THREAD = Runtime.getRuntime().availableProcessors();;
 
+	/**
+	 * Create a clustering engine for the given corpus and index
+	 * @param corpus
+	 * @param index
+	 */
 	public KMeansClustering(Corpus corpus, DefaultInvertedIndex index) {
 		k = findOptimalNumberOfClusters(corpus, index);
 		k=15;
@@ -36,11 +41,22 @@ public class KMeansClustering {
 		}
 	}
 
+	/**
+	 * Peek at a given cluster number and retrieve numberOfDocument from it
+	 * @param clusterNo
+	 * @param numberOfDocument
+	 * @return
+	 */
 	public Collection<WeightedDocument> peekAtClusters(int clusterNo, int numberOfDocument) {
 		return clusterList.get(clusterNo).subList(numberOfDocument);
 	}
 
+	/**
+	 * Perform the actual clustering of the document, comparing each document in the set
+	 * with the centroid of each cluster, adding each document to the closest centroid's cluster.
+	 */
 	public void performClustering() {
+		
 		BenchmarkRow clusteringBenchmark = new BenchmarkRow("Clustering");
 		clusteringBenchmark.start();
 		System.out.println("Clustering: pre-processing the data");
@@ -58,22 +74,27 @@ public class KMeansClustering {
 			WeightedDocument document = docList.poll();
 			if (document.getVector() != null) {
 	 			clusterList.get((int) (Math.random()*k)).addDocument(document);
+	 			//This task list will be re-used at every step of the K-Mean algorithm as a handle
 	 			ClusteringTask task = new ClusteringTask(document, clusterList);
 	 			clusteringTask.add(task);
 			}
 	 		
 		}
 		docList = null;
+		//Create the thread pool that will serve all the clustering tasks
 		ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREAD);
 
 		
 		for (int passNo =1; passNo<= NUMBER_OF_PASS; passNo++) {
 			for (Cluster cluster : clusterList) {
+				//force centroid calculation and caching.
 				cluster.getCentroid(true);
+				//remove all members (they will be added shortly
 				cluster.getMembersAndRemove();
 			}
 			System.out.println("Clustering: pass " + passNo + "/" + NUMBER_OF_PASS);
 			try {
+				//Start the task and return only when completed.
 				executor.invokeAll(clusteringTask);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

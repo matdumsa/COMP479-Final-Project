@@ -15,6 +15,10 @@ public class Cluster {
 
 	public String getName() { return name; }
 
+	/**
+	 * Creates a new cluster and assign it the name given in parameter
+	 * @param name
+	 */
 	public Cluster(String name) {
 		this.name = name;
 		members = new LinkedList<WeightedDocument>();
@@ -28,11 +32,19 @@ public class Cluster {
 		return members.pollFirst();
 	}
 
+	/**
+	 * Add the document given in parameter to this cluster
+	 * @param d
+	 */
 	public synchronized void addDocument(WeightedDocument d) {
 		members.add(d);
 	}
 
-	public VectorTermSpace getCentroid() {
+	/**
+	 * Compute the centroid in n-euclidian space for this cluster and return it
+	 * @return
+	 */
+	private VectorTermSpace getCentroid() {
 		if (cachedCentroid != null)
 			return cachedCentroid;
 		VectorTermSpace centroid = new VectorTermSpace();
@@ -45,11 +57,24 @@ public class Cluster {
 		return centroid;
 	}
 	
-	public VectorTermSpace getCentroid(boolean force) {
-		cachedCentroid = null;
-		return getCentroid();
+	/**
+	 * Returns the centroid previously calculated and cached if the flag is set to false
+	 * @param recompute, re-compute the centroid if set to true
+	 * @return
+	 */
+	public VectorTermSpace getCentroid(boolean recompute) {
+		if (recompute == true || cachedCentroid == null) {
+			cachedCentroid=null;
+			getCentroid();
+		}
+		return cachedCentroid;
 	}
 
+	/**
+	 * Return numberOfDocument from this Cluster
+	 * @param numberOfDocument
+	 * @return
+	 */
 	public Collection<WeightedDocument> subList(int numberOfDocument) {
 		LinkedList<WeightedDocument> list = new LinkedList<WeightedDocument>();
 		int currentSize = 0;
@@ -69,6 +94,10 @@ public class Cluster {
 		
 	}
 	
+	/**
+	 * Return the list of all member and empty this cluster.
+	 * @return
+	 */
 	public LinkedList<WeightedDocument> getMembersAndRemove() {
 		LinkedList<WeightedDocument> results = members;
 		members = new LinkedList<WeightedDocument>();

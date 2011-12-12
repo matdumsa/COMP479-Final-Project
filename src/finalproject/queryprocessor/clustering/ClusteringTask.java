@@ -25,7 +25,7 @@ public class ClusteringTask implements Callable<Object>{
 		Cluster closest = null;
 		Double closestDistance = Double.MAX_VALUE;
 		for (Cluster cluster : clusterList) {
-			Double distance = cluster.getCentroid().getDistanceFromVector(d.getVector());
+			Double distance = cluster.getCentroid(false).getDistanceFromVector(d.getVector());
 			if (distance < closestDistance) {
 				closestDistance = distance;
 				closest = cluster;
