@@ -50,7 +50,7 @@ public class RankedResultSet extends ResultSet {
 			return results;
 	}
 
-	//This methods applies Okapi BM25
+	// Ranking with TF-IDF score
 	private RankedResult makeRank(GenericDocument document) {
 		WeightedDocument wd = (WeightedDocument) document;
 		double N = CorpusFactory.getCorpus().size();	//corpus size
@@ -66,6 +66,7 @@ public class RankedResultSet extends ResultSet {
 		return new RankedResult(document, result);
 	}
 	
+	//This methods applies Okapi BM25
 	private RankedResult makeRankBM25(GenericDocument abstractDocument) {
 		double N = CorpusFactory.getCorpus().size();	//corpus size
 		double k1 = 1.5;
