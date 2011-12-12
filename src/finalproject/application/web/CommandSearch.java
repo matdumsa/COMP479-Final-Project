@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import finalproject.crawler.Snippet;
 import finalproject.queryprocessor.QueryProcessor;
-import finalproject.queryprocessor.ResultSet;
 import finalproject.queryprocessor.Result;
+import finalproject.queryprocessor.ResultSet;
 import finalproject.queryprocessor.booleantree.InvalidQueryException;
 
 public class CommandSearch extends Command {

@@ -8,6 +8,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import finalproject.index.compression.StopwordRemover;
 import finalproject.technicalservices.Constants;
 

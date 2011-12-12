@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.TreeMap;
 
 import finalproject.GenericDocument;
-import finalproject.WeightedDocument;
 import finalproject.technicalservices.Constants;
 
 public class Corpus implements Iterable<GenericDocument>{
