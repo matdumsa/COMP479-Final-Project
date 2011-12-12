@@ -13,18 +13,21 @@ import finalproject.index.compression.StopwordRemover;
 import finalproject.technicalservices.Constants;
 
 /**
- * This class provides static methods to compute snippet for a document. It helps to have a better web interface.
+ * This class provides static methods to generate snippet for each document in the result set. It enables the user
+ * to view summary for each result and decide if the web site is relevant to the searched query.
  * @author jeremiemartinez
- *
+ * @author hamidrezatavakoli
  */
 public class Snippet {
 	
-	public static void main(String[] args) {
-
-		System.out.print(Snippet.findsnippet(5684,"registrar schedule"));
-
-	}
 	
+	/**
+	 * Findsnippet generates the summary for given docid and query
+	 * 
+	 * @param docid
+	 * @param query
+	 * @return String
+	 */
 	public static String findsnippet(int docid, String query){
 
 		String[] contentTerms = null;
@@ -46,12 +49,16 @@ public class Snippet {
 				output = "";
 			}
 		}
+		if(words.size()<5)
+		{
+			phrases.add(output);
+		}
 		output = "";
 		String[] terms = query.toLowerCase().split(" ");
+		int count = 0;
 		for(String sterm : terms){
 			if(!StopwordRemover.stopwords.contains(sterm))
 			{
-				int count = 0;
 				for(String phrase : phrases)
 				{
 					if(phrase.contains(sterm)&count<2)
@@ -65,18 +72,32 @@ public class Snippet {
 					}
 				}
 			}
+			count = 0;
 		}
 		return output;
 	}
 	
 
+	/**
+	 * getPageContentById retrieves the content of a page with a given id
+	 * @param id
+	 * @return
+	 * @throws IOException
+	 */
 	public static String getPageContentById(int id) throws IOException {
 		String path = Constants.basepath + "/data/" + id;
 		String output = readFile(path);
 		return output.replaceAll("\\<[^>]*>","").replaceAll("\\&.*?\\;", "").replaceAll("\\s+", " ");
 	}
+
 	
-	
+	/**
+	 * readFile 
+	 * 
+	 * @param path
+	 * @return
+	 * @throws IOException
+	 */
 	private static String readFile(String path) throws IOException {
 		  FileInputStream stream = new FileInputStream(new File(path));
 		  try {
