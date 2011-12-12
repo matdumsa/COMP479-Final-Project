@@ -47,7 +47,7 @@ public class QueryProcessor {
 				return null;
 			newQuery = suggestNewQueryBySpellChecking(query);
 			System.out.println("Nothing was found for '" + query + "', Ill search for '" + newQuery + "' instead");
-				performQuery(newQuery, attempt++);
+				performQuery(newQuery, ++attempt);
 		}
 
 		ResultSet result;
