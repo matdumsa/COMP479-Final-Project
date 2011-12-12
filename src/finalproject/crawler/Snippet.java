@@ -11,6 +11,11 @@ import java.util.Arrays;
 import finalproject.index.compression.StopwordRemover;
 import finalproject.technicalservices.Constants;
 
+/**
+ * This class provides static methods to compute snippet for a document. It helps to have a better web interface.
+ * @author jeremiemartinez
+ *
+ */
 public class Snippet {
 	
 	public static void main(String[] args) {

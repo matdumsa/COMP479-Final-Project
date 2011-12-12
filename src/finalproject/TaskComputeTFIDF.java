@@ -5,6 +5,11 @@ import java.util.LinkedList;
 
 import finalproject.index.spimi.DefaultInvertedIndex;
 
+/**
+ * This class represents a Task that compute TF-IDF vector for a given document. 
+ * @author jeremiemartinez
+ *
+ */
 public class TaskComputeTFIDF implements Runnable {
 
 	private DefaultInvertedIndex index;

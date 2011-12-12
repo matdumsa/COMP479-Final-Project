@@ -9,6 +9,12 @@ import finalproject.Posting;
 import finalproject.corpus.CorpusFactory;
 import finalproject.index.spimi.DefaultInvertedIndex;
 
+/**
+ * A result set represents a set of result. It also contains the input query, the suggested query and the compressed query.
+ * This object is used to encapsulate all information required by user interfaces to display the information found to the user.
+ * @author jeremiemartinez
+ *
+ */
 public class ResultSet implements Iterable<Result>{
 
 	Collection<Result> results = null;

@@ -4,8 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * This class represents a weighted vector. We mainly use it for TF-IDF Vector.
+ * @author jeremiemartinez
+ *
+ */
 public class VectorTermSpace {
-
+	// Integer is the termID and double the weight associated.
 	private Map<Integer, Double> vector;
 
 
@@ -67,7 +72,8 @@ public class VectorTermSpace {
 		return Math.sqrt(distance);
 
 	}
-
+	
+	// This method permits to know if two vectors are equals and therefore remove duplicates.
 	@Override
 	public boolean equals(Object o){
 		if (o instanceof VectorTermSpace){

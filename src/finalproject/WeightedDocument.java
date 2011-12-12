@@ -5,6 +5,7 @@ package finalproject;
 
 
 /**
+ * This class represents a Weigthted Document, i.e. a Document that could be ranked.
  * @author jeremiemartinez
  *
  */

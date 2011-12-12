@@ -1,5 +1,10 @@
 package finalproject;
 
+/**
+ * This class represents a WebDocument, i.e. a Document crawled from the Web, that owns a url.
+ * @author jeremiemartinez
+ *
+ */
 public class WebDocument extends WeightedDocument {
 
 	private String url;
