@@ -49,14 +49,28 @@
 					</c:when>
 			 </c:choose>
 			I found ${resultcount} results in ${timetomatch} ms.
-        </div>
-	<% int i = 1; 
-	
-	%>
+		</div>
+
+		<center>
+		<div>
+			<c:if test="${cluster != null && cluster.lastClusteringMoment > 0}">
+				<c:forEach var="cluster" items="${cluster.clusterList }">
+					<label class="inline"><input type="checkbox"
+						id="${cluster.name }" class="clusterCheck" checked style="" />
+						${cluster.name }</label>
+				</c:forEach>
+				<button id="toggleCheck">toggle</button>
+			</c:if>
+		</div>
+		</center>
+
+		<%
+			int i = 1;
+		%>
 	<c:forEach var="r" items="${resultset.results}">
-				<div id="box">
+				<div id="box" class="box ${r.document.cluster.name }">
 					<h1> 
-						<%=i %> - <fmt:formatNumber type="number" maxIntegerDigits="3" maxFractionDigits="2" value="${r.rank}"/> - <a href="${r.document.url}"> ${r.document.title} </a>
+						<%=i%> - <fmt:formatNumber type="number" maxIntegerDigits="3" maxFractionDigits="2" value="${r.rank}"/> - <a href="${r.document.url}"> ${r.document.title} </a>
 						<c:if test="${ r.document.cluster != null}">
 							<small>found in ${r.document.cluster.name }</small>
 						</c:if>
@@ -64,11 +78,13 @@
 					${r.document.url}<hr>
 					${r.document.text}
 				</div>
-				<%i++; %>
+				<%
+					i++;
+				%>
 	</c:forEach>
 	</div>
 	
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
 	<script src="/COMp479-Final-Project/static/js/plugins.js"></script>
 	<script src="/COMp479-Final-Project/static/js/script.js"></script>
 	<!--[if lt IE 7 ]>

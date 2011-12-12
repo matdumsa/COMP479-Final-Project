@@ -37,7 +37,7 @@ public class KMeansClustering {
 		this.corpus = corpus;
 		this.index = index;
 		for (int x=0; x< k; x++)
-			clusterList.add(new Cluster("Cluster " + x));
+			clusterList.add(new Cluster("Cluster" + x));
 	}
 	
 	/**

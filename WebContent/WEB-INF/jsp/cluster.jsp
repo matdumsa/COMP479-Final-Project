@@ -14,7 +14,7 @@
 	<jsp:include page="searchForm.jsp" />
 	<% int i = 1; %>
 	<c:forEach var="cluster" items="${clusters.clusterList}">
-		<h2> Cluster <%=i %> (${cluster.size} documents)</h2>
+		<h2> ${cluster.name} (${cluster.size} documents)</h2>
 		<c:forEach var="document" items="${cluster.closestTen }">
 				<h3>
 					<a href="${document.url}"> <font size="3">${document.title}</font> </a><br/> <font size="2">(${document.url})</font>

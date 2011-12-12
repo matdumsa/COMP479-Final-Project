@@ -1,5 +1,27 @@
 $(function(){
 
+	//Trigger the clustering hide-show
+	$(".clusterCheck").change(function() {
+		if ($(this).prop("checked"))
+			$("div.box." + $(this).attr("id")).show();
+		else
+			$("div.box." + $(this).attr("id")).hide();
+			
+	}).each(function() {
+		var id = $(this).attr("id");
+		var count = $("div.box."+id).length;
+		if (count==0)
+			$(this).closest("label").hide();
+		$(this).closest("label").append("<span> (" + count + ")</span>");
+	});
+	
+	$("#toggleCheck").click(function() {
+		$(".clusterCheck").each(function() {
+			$(this).prop("checked",!$(this).prop("checked")).change();
+		});
+	});
+	
+	
 	//set global variables and cache DOM elements for reuse later
 	var form = $('#contact-form').find('form'),
 		formElements = form.find('input[type!="submit"],textarea'),

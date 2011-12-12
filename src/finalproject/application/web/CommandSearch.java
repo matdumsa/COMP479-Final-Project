@@ -7,6 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import finalproject.corpus.ClusteredWeightedCorpus;
+import finalproject.corpus.Corpus;
+import finalproject.corpus.CorpusFactory;
 import finalproject.queryprocessor.QueryProcessor;
 import finalproject.queryprocessor.Result;
 import finalproject.queryprocessor.ResultSet;
@@ -36,6 +39,10 @@ public class CommandSearch extends Command {
 		request.setAttribute("timetomatch", QueryProcessor.getMatchingTime());
 		request.setAttribute("resultcount", resultset.size());
 		request.setAttribute("resultset", resultset);
+		
+		Corpus corpus = CorpusFactory.getCorpus();
+		if (corpus instanceof ClusteredWeightedCorpus)
+			request.setAttribute("cluster", ((ClusteredWeightedCorpus) corpus).getClustering());
 		
 		RequestDispatcher rd = request.getRequestDispatcher(super.getJSPPAth("search.jsp"));
 		rd.forward(request, response);
