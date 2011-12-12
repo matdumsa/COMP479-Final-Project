@@ -65,7 +65,7 @@ public class ConcreteCrawler extends Crawler {
 				e1.printStackTrace();
 			}
 
-		System.out.println("Done downloading " + pageNumber + " pages, waiting for indexing to finish");
+		System.out.println("Done downloading " + pageNumber + " pages, found " + duplicateCount + " duplicates. waiting for indexing to finish");
 		IndexerThread.signalNoMoreDocumentsAreExpected();
 		try {
 			indexer.join();
@@ -108,6 +108,7 @@ public class ConcreteCrawler extends Crawler {
 
 
 	private static Integer pageNumber = 0;
+	private static Integer duplicateCount =0;
 	@Override
 	/*
 	 * (non-Javadoc)
@@ -120,10 +121,10 @@ public class ConcreteCrawler extends Crawler {
 			try {
 				WebDocument doc = getDocumentFromPage(page);
 				if (alreadyVisitedDocumentSet.contains(doc.getDigest())) {
-					System.out.println("Catched a duplicate");
+					synchronized(duplicateCount) { duplicateCount++; }
 				}
 				else {
-
+					alreadyVisitedDocumentSet.add(doc.getDigest());
 					if (doc.getText().length() > 0) {
 						synchronized(pageNumber) {
 							currentPage = pageNumber++;
