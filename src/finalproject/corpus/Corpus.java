@@ -12,32 +12,34 @@ import java.util.Iterator;
 import java.util.TreeMap;
 
 import finalproject.GenericDocument;
+import finalproject.index.spimi.DefaultInvertedIndex;
 import finalproject.technicalservices.Constants;
 
 public class Corpus implements Iterable<GenericDocument>{
 
 	protected TreeMap<Integer, GenericDocument> documentMap;
-	private static Class<? extends GenericDocument> factory = GenericDocument.class;
+	private Class<? extends GenericDocument> factory = GenericDocument.class;
 	private boolean readOnly=false; //when a Corpus is created, it is read-write and when finalized, it becomes read-only
 	private boolean isDirty = true;
+	private DefaultInvertedIndex index;
 	
 	//Default constructor allow only the factory in this package to create instances
-	Corpus() {
-		super();
-		System.out.println("Creating a corpus");
-		if (CorpusFactory.corpus != null)
-			throw new RuntimeException("Oups.. you can't create a new corpus if there is already one in CorpusFactory");
-	}
-
 	/**
 	 * When using a document type that extends from GenericDocument, the factory (class that contains fromString) that can
 	 * create this type of document should be passed here.
 	 * @param factory
 	 */
-	public static void setNewDocumentFactory(Class<? extends GenericDocument> factory) {
-		Corpus.factory = factory;
-	}
+
 	
+	Corpus(Class<? extends GenericDocument> factory, DefaultInvertedIndex index) {
+		super();
+		System.out.println("Creating a corpus");
+		this.factory = factory;
+		this.index = index;
+		if (CorpusFactory.corpus != null)
+			throw new RuntimeException("Oups.. you can't create a new corpus if there is already one in CorpusFactory");
+	}
+
 	public synchronized void addArticle(GenericDocument d) {
 		if (documentMap == null)
 			documentMap = new TreeMap<Integer, GenericDocument>();
@@ -71,18 +73,21 @@ public class Corpus implements Iterable<GenericDocument>{
 		isDirty = false;
 	}
 	
-	public static void readFromDisk() {
-		Corpus newCorpus = CorpusFactory.getCorpus();
-		newCorpus.documentMap = new TreeMap<Integer, GenericDocument>();
+	public void clear() {
+		documentMap.clear();
+	}
+	
+	public void readFromDisk() {
+		documentMap = new TreeMap<Integer, GenericDocument>();
 		try {
 			LineNumberReader in = new LineNumberReader(new FileReader(Constants.basepath + "/articles.txt"));
 			String line;
 			line = in.readLine();
 			while (line != null && line.length()>0) {
 				try {
-					Method factoryMethod = factory.getDeclaredMethod("fromString", String.class);
+					Method factoryMethod = getFactory().getDeclaredMethod("fromString", String.class);
 					GenericDocument d = (GenericDocument) factoryMethod.invoke(null, line);
-					newCorpus.documentMap.put(d.getId(), d);
+					documentMap.put(d.getId(), d);
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -108,8 +113,8 @@ public class Corpus implements Iterable<GenericDocument>{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		newCorpus.isDirty = false;
-		newCorpus.closeIndex();
+		isDirty = false;
+		closeIndex();
 	}
 	
 	public int getTotalLength() {
@@ -135,4 +140,14 @@ public class Corpus implements Iterable<GenericDocument>{
 	public Iterator<GenericDocument> iterator() {
 		return documentMap.values().iterator();
 	}
+	
+	public DefaultInvertedIndex getIndex() {
+		return index;
+	}
+	
+	private Class<? extends GenericDocument> getFactory() {
+		return this.factory;
+	}
+	
+		
 }

@@ -19,7 +19,14 @@ public class RankedResultSet extends ResultSet {
 		this.rankAccordingToQuery = rankAccordingToQuery;
 		super.results = generateResult(compressedInputQuery, results); //Here we should assign a RANKED LIST to super.results.
 	}
-	
+
+	/**
+	 * Generate a set of result for the given query and matching document set.. 
+	 * Will discard any duplicate results (with the same ranking)
+	 * @param queryPositiveTerms
+	 * @param matchingDocument
+	 * @return
+	 */
 	private Collection<Result> generateResult(String queryPositiveTerms, Collection<Posting> matchingDocument) {
 			TreeSet<Result> results = new TreeSet<Result>();
 			List<Result> alreadyDone = new LinkedList<Result>();

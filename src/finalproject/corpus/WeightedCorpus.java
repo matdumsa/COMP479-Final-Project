@@ -11,7 +11,6 @@ import finalproject.GenericDocument;
 import finalproject.Posting;
 import finalproject.TaskComputeTFIDF;
 import finalproject.WeightedDocument;
-import finalproject.index.IndexSingleton;
 import finalproject.index.spimi.DefaultInvertedIndex;
 import finalproject.technicalservices.BenchmarkRow;
 
@@ -23,11 +22,10 @@ import finalproject.technicalservices.BenchmarkRow;
  */
 public class WeightedCorpus extends Corpus {
 	
-	private DefaultInvertedIndex index;  
-	private int NUMBER_OF_THREAD = Runtime.getRuntime().availableProcessors();;
+	private int NUMBER_OF_THREAD = Runtime.getRuntime().availableProcessors();
 	//Default constructor allow only the factory in this package to create instances
-	public WeightedCorpus() {
-		super();
+	public WeightedCorpus(Class<? extends GenericDocument> documentTemplate, DefaultInvertedIndex index) {
+		super(documentTemplate, index);
 	}
 	
 	
@@ -40,17 +38,16 @@ public class WeightedCorpus extends Corpus {
 		BenchmarkRow bench = new BenchmarkRow("Generating TFIFD with " + NUMBER_OF_THREAD + " workers");
 		bench.start();
 
-		index = IndexSingleton.getInstance();
-		if (index.validate() == false)
+		if (getIndex().validate() == false)
 			throw new RuntimeException("Invalid index, cannot compute TFIDF on an invalid index");
 
-		TreeMap<GenericDocument, LinkedList<Posting>> data = index.getDocumentBasedIndex();
+		TreeMap<GenericDocument, LinkedList<Posting>> data = getIndex().getDocumentBasedIndex(this);
 		System.out.println("Starting TF-IDF computing");
 
 		//Pre-process all postings to give them a unique id
 		HashMap<String, Integer> termsToUniqueIds = new HashMap<String, Integer>();
 		int c = 0;
-		for (String s : index) {
+		for (String s : getIndex()) {
 			termsToUniqueIds.put(s, c++);
 		}
 
@@ -59,7 +56,7 @@ public class WeightedCorpus extends Corpus {
 		for (GenericDocument gd : data.keySet()) {
 			WeightedDocument document = (WeightedDocument) gd;
 			LinkedList<Posting> postingList = data.get(gd);
-			executor.submit(new TaskComputeTFIDF(document, postingList, index, super.size(), termsToUniqueIds));
+			executor.submit(new TaskComputeTFIDF(document, postingList, getIndex(), super.size(), termsToUniqueIds));
 		}
 		
 		executor.shutdown();

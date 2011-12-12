@@ -7,9 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import finalproject.corpus.ClusteredWeightedCorpus;
 import finalproject.corpus.CorpusFactory;
-import finalproject.queryprocessor.QueryProcessor;
-import finalproject.queryprocessor.clustering.KMeansClustering;
 import finalproject.queryprocessor.clustering.ResultCluster;
 
 public class CommandClustering extends Command {
@@ -20,9 +19,8 @@ public class CommandClustering extends Command {
 			
 			System.out.println("Displaying Cluster");
 			
-			KMeansClustering clustering = new KMeansClustering(CorpusFactory.getCorpus(), QueryProcessor.getIndex());
-			clustering.performClustering();
-			ResultCluster clusters = clustering.createResultCluster();
+			ClusteredWeightedCorpus corpus = (ClusteredWeightedCorpus) CorpusFactory.getCorpus();
+			ResultCluster clusters = corpus.getClustering().createResultCluster();
 			request.setAttribute("clusters", clusters);
 
 			RequestDispatcher rd = request.getRequestDispatcher(super.getJSPPAth("cluster.jsp"));

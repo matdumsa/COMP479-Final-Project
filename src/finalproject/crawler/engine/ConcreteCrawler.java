@@ -5,8 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.net.MalformedURLException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import websphinx.Crawler;
 import websphinx.DownloadParameters;
@@ -16,8 +20,7 @@ import websphinx.Pattern;
 import websphinx.Text;
 import websphinx.Wildcard;
 import finalproject.WebDocument;
-import finalproject.WeightedDocument;
-import finalproject.corpus.WeightedCorpus;
+import finalproject.corpus.CorpusFactory;
 import finalproject.index.IndexerThread;
 import finalproject.index.spimi.SPIMIReconciliation;
 import finalproject.technicalservices.BenchmarkRow;
@@ -27,6 +30,8 @@ public class ConcreteCrawler extends Crawler {
 
 	private static HashMap<String, Integer> domainCrawlMap = new HashMap<String, Integer>();
 	private IndexerThread indexer;
+	private static Set<BigInteger> alreadyVisitedDocumentSet = Collections.synchronizedSet(new HashSet<BigInteger>());
+
 	/**
 	 * 
 	 */
@@ -35,13 +40,13 @@ public class ConcreteCrawler extends Crawler {
 	// and lists home-page URLs of the academic faculty.  All the
 	// homepage URLs are assumed to obey the following pattern:
 	static Pattern concordiaDomain = 
-			new Wildcard ("http://*cs.concordia.ca/*");
+			new Wildcard("http://*cs.concordia.ca/*");
 
 	public ConcreteCrawler(Link root) {
 		super();
-		//Telling the corpus class how-to create new documents
-		WeightedCorpus.setNewDocumentFactory(WeightedDocument.class);
 
+
+		CorpusFactory.getCorpus(true);
 		indexer = new IndexerThread("Web indexer");
 		indexer.start();
 		DownloadParameters dp = super.getDownloadParameters();
@@ -77,6 +82,11 @@ public class ConcreteCrawler extends Crawler {
 	 */
 	@Override
 	public boolean shouldVisit (Link link) {
+
+		//Probably a cached page we already indexed anyway..
+		if (link.getURL().toString().split("http://").length > 2)
+			return false;
+
 		if (concordiaDomain.found(link.getURL().toString()) == false)
 			return false;
 
@@ -109,15 +119,22 @@ public class ConcreteCrawler extends Crawler {
 
 			try {
 				WebDocument doc = getDocumentFromPage(page);
-				if (doc.getText().length() > 0) {
-					synchronized(pageNumber) {
-						currentPage = pageNumber++;
+				if (alreadyVisitedDocumentSet.contains(doc.getDigest())) {
+					System.out.println("Catched a duplicate");
+				}
+				else {
+
+					if (doc.getText().length() > 0) {
+						synchronized(pageNumber) {
+							currentPage = pageNumber++;
+						}
+						if (currentPage%1000 == 0)
+							System.out.println("I am at page " + currentPage);
+						doc.setId(currentPage);
+						savePageToDisk(page, Property.get("basepath") + "/data/" + currentPage);
+						IndexerThread.addDocument(doc);
 					}
-					if (currentPage%1000 == 0)
-						System.out.println("I am at page " + currentPage);
-					doc.setId(currentPage);
-					savePageToDisk(page, Property.get("basepath") + "/data/" + currentPage);
-					IndexerThread.addDocument(doc);
+
 				}
 			} catch (CannotGetParsedDocumentException e) {
 				e.printStackTrace();

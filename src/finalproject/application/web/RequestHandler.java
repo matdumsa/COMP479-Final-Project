@@ -7,8 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import finalproject.WebDocument;
-import finalproject.corpus.Corpus;
+import finalproject.corpus.CorpusFactory;
 
 /**
  * Servlet implementation class RequestHandler
@@ -16,9 +15,6 @@ import finalproject.corpus.Corpus;
 public class RequestHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
  
-	static {
-		Corpus.setNewDocumentFactory(WebDocument.class);
-	}
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -39,6 +35,9 @@ public class RequestHandler extends HttpServlet {
         //Read the url requested and remove the servlet part of it (I am the servlet).
 		String requestedURI = request.getServletPath();
         
+		//Obtain the corpus
+		CorpusFactory.getCorpus();
+		
 		try {
 			Command c = CommandFactory.createCommand(requestedURI);
 			c.execute(request, response);

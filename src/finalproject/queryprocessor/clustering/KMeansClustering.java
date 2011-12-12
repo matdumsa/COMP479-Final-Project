@@ -23,22 +23,20 @@ public class KMeansClustering {
 	private int k = 8;
 	private DefaultInvertedIndex index;
 	private int NUMBER_OF_THREAD = Runtime.getRuntime().availableProcessors();;
-
+	private long lastClustering = 0;
+	private Corpus corpus;
+	
 	/**
 	 * Create a clustering engine for the given corpus and index
 	 * @param corpus
 	 * @param index
 	 */
 	public KMeansClustering(Corpus corpus, DefaultInvertedIndex index) {
-		k = findOptimalNumberOfClusters(corpus, index);
 		k=15;
+		this.corpus = corpus;
 		this.index = index;
-		System.out.println("Clustering started for " + k + " clusters");
 		for (int x=0; x< k; x++)
 			clusterList.add(new Cluster("Cluster " + x));
-		for (GenericDocument d : corpus) {
-			docList.add((WeightedDocument) d);
-		}
 	}
 
 	/**
@@ -56,7 +54,12 @@ public class KMeansClustering {
 	 * with the centroid of each cluster, adding each document to the closest centroid's cluster.
 	 */
 	public void performClustering() {
-		
+		System.out.println("Clustering started for " + k + " clusters");
+
+		for (GenericDocument d : corpus) {
+			docList.add((WeightedDocument) d);
+		}
+
 		BenchmarkRow clusteringBenchmark = new BenchmarkRow("Clustering");
 		clusteringBenchmark.start();
 		System.out.println("Clustering: pre-processing the data");
@@ -104,17 +107,13 @@ public class KMeansClustering {
 		
 		clusteringBenchmark.stop();
 		System.out.println(clusteringBenchmark.toString());
+		lastClustering = System.currentTimeMillis();
 	}
 
-
+	public long getLastClusteringMoment() {
+		return lastClustering;
+	}
 	
-	//^ Fazli Can, Esen A. Ozkarahan (1990). "Concepts and effectiveness of the cover coefficient-based clustering methodology for text databases". ACM Transactions on Database Systems 15 (4): 483Ð517. doi:10.1145/99935.99938. especially see Section 2.7.
-	private int findOptimalNumberOfClusters(Corpus c, DefaultInvertedIndex i) {
-		int m = c.size();
-		int n = i.size();
-		int t = i.getAll().size();
-		return (m*n)/t;
-	}
 
 	public int getClusterCount() {
 		return k;

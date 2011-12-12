@@ -1,5 +1,9 @@
 package finalproject;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class GenericDocument implements Comparable<GenericDocument> {
 
 	protected Integer id;
@@ -52,11 +56,11 @@ public class GenericDocument implements Comparable<GenericDocument> {
 		text=null;
 	}
 
-	
+
 	public String toString() {
 		return getId() + ":" + getLengthInWords() + ":" + getTitle();
 	}
-	
+
 	public static GenericDocument fromString(String input) {
 		String[] parts = input.split("#");
 		int id = Integer.parseInt(parts[0]);
@@ -71,13 +75,25 @@ public class GenericDocument implements Comparable<GenericDocument> {
 	public int compareTo(GenericDocument o) {
 		return (new Integer(this.getId())).compareTo(o.getId());
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof GenericDocument)
 			return (this.getId()) == ((GenericDocument)o).getId();
 		else
 			return false;
+	}
+
+	private BigInteger digest = null;
+	public BigInteger getDigest() {
+		if (digest == null) {
+			try {
+				digest = new BigInteger(1, MessageDigest.getInstance("MD5").digest(this.getText().getBytes()));
+			} catch (NoSuchAlgorithmException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return digest;
 	}
 
 }

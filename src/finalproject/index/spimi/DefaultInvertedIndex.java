@@ -20,7 +20,7 @@ import java.util.TreeMap;
 
 import finalproject.GenericDocument;
 import finalproject.Posting;
-import finalproject.corpus.CorpusFactory;
+import finalproject.corpus.Corpus;
 import finalproject.technicalservices.BenchmarkRow;
 import finalproject.technicalservices.Constants;
 
@@ -234,14 +234,14 @@ public class DefaultInvertedIndex implements IInvertedIndex {
 	/*
 	 * Used for tf-idf
 	 */
-	public TreeMap<GenericDocument, LinkedList<Posting>> getDocumentBasedIndex() {
+	public TreeMap<GenericDocument, LinkedList<Posting>> getDocumentBasedIndex(Corpus corpus) {
 		TreeMap<GenericDocument, LinkedList<Posting>> result = new TreeMap<GenericDocument, LinkedList<Posting>>();
 
 		BenchmarkRow br = new BenchmarkRow("Document based index");
 		br.start();
 		for (Collection<Posting> collection : map.values()) {
 			for (Posting p : collection) {
-				GenericDocument doc = CorpusFactory.getCorpus().findArticle(p.getDocumentId());
+				GenericDocument doc = corpus.findArticle(p.getDocumentId());
 				if (doc!=null){
 					if (result.containsKey(doc))
 						result.get(doc).add(p);

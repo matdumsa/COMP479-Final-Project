@@ -3,6 +3,9 @@
  */
 package finalproject.corpus;
 
+import finalproject.GenericDocument;
+import finalproject.index.IndexSingleton;
+import finalproject.index.spimi.DefaultInvertedIndex;
 import finalproject.technicalservices.Property;
 
 /**
@@ -17,13 +20,33 @@ public class CorpusFactory {
 	static Corpus corpus;
 
 	public synchronized static Corpus getCorpus(){
-		if (corpus == null) {
-			if (Property.getBoolean("weightedCorpus") == true){
-				corpus = new WeightedCorpus();
-			} else{
-				corpus = new Corpus();
+		return getCorpus(false);
+	}
+
+	@SuppressWarnings("unchecked")
+	public synchronized static Corpus getCorpus(boolean emptyCorpus){
+		try {
+			if (corpus == null) {
+				//Find a document factory from file.
+				Class<? extends GenericDocument> documentTemplate = (Class<? extends GenericDocument>) Class.forName(Property.get("documentTemplate"));
+				
+				//Load an index
+				DefaultInvertedIndex index = IndexSingleton.getInstance(true);
+				
+				String corpusType = Property.get("corpusType");
+				if (corpusType.equalsIgnoreCase("finalproject.corpus.ClusteredWeightedCorpus"))
+					corpus = new ClusteredWeightedCorpus(documentTemplate, index);
+				if (corpusType.equalsIgnoreCase("finalproject.corpus.Corpus"))
+					corpus = new Corpus(documentTemplate, index);
+				if (corpusType.equalsIgnoreCase("finalproject.corpus.WeightedCorpus"))
+					corpus = new WeightedCorpus(documentTemplate, index);
+					
+				if (emptyCorpus == false)
+					corpus.readFromDisk();
 			}
+			return corpus;
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
 		}
-		return corpus;
 	}
 }
