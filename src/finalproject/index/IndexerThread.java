@@ -111,6 +111,14 @@ public class IndexerThread extends Thread {
 
 	public static void signalNoMoreDocumentsAreExpected() {
 		noMoreDocumentsWillBeAdded=true;
+		while (documentToProcess.size() > 0) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		for (Thread t: threadList) {
 			//Wake the sleepers 
 			t.interrupt();

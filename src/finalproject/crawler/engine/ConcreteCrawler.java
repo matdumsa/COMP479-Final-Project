@@ -56,7 +56,7 @@ public class ConcreteCrawler extends Crawler {
 	}
 
 	public void concludeCrawl() {
-		System.out.println("Donw crawling, waiting for the worker to finish downloading.");
+		System.out.println("Done crawling, waiting for the worker to finish downloading.");
 		while (this.getActiveThreads() > 0)
 			try {
 				Thread.sleep(100);

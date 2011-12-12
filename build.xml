@@ -116,7 +116,7 @@
         </java>
     </target>
     <target name="Console">
-        <java classname="finalproject.crawler.Console" failonerror="true" fork="yes">
+        <java classname="finalproject.application.console.CrawlerConsole" failonerror="true" fork="yes">
             <classpath refid="COMp479-Final-Project.classpath"/>
         </java>
     </target>

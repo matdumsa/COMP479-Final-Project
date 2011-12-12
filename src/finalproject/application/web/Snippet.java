@@ -1,4 +1,4 @@
-package finalproject.crawler;
+package finalproject.application.web;
 
 import java.io.File;
 import java.io.FileInputStream;

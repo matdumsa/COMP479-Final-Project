@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import finalproject.crawler.Snippet;
 import finalproject.queryprocessor.QueryProcessor;
 import finalproject.queryprocessor.Result;
 import finalproject.queryprocessor.ResultSet;

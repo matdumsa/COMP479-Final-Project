@@ -1,12 +1,10 @@
-package finalproject.crawler;
+package finalproject.application.console;
 
 import finalproject.WebDocument;
-import finalproject.application.console.InteractiveQuery;
-import finalproject.application.console.ResultsPrinter;
 import finalproject.queryprocessor.RankedResult;
 import finalproject.queryprocessor.Result;
 
-public class Console {
+public class CrawlerConsole {
 
 	public static void main(String[] args) {
 
