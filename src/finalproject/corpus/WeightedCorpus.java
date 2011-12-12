@@ -64,7 +64,14 @@ public class WeightedCorpus extends Corpus {
 		
 		executor.shutdown();
 		
-
+		while (executor.isTerminated() == false) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		System.out.println("Computing TF-IDF finished");
 		bench.stop();
 		System.out.println(bench.toString());

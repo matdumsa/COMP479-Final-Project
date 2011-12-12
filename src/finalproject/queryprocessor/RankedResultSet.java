@@ -9,6 +9,7 @@ import finalproject.VectorTermSpace;
 import finalproject.WeightedDocument;
 import finalproject.corpus.CorpusFactory;
 import finalproject.index.spimi.DefaultInvertedIndex;
+import finalproject.technicalservices.Property;
 
 public class RankedResultSet extends ResultSet {
 
@@ -34,8 +35,19 @@ public class RankedResultSet extends ResultSet {
 				GenericDocument document = CorpusFactory.getCorpus().findArticle(p.getDocumentId());
 				if (document == null)
 					continue;
-				RankedResult result = makeRank(document);
-					results.add(result);
+				RankedResult result = null;
+				
+				if (Property.get("rankStyle").equals("BM25")) {
+					result = makeRankBM25(document);
+				}
+				else if (Property.get("rankStyle").equals("TFIDF")) {
+					result = makeRankTFIDF(document);					
+				}
+				else {
+					throw new RuntimeException("Unknown rankStyle");
+				}
+					
+				results.add(result);
 
 			}
 			System.out.println("Done ranking " +matchingDocument.size() +":"+ results.size() + " results");
@@ -43,9 +55,8 @@ public class RankedResultSet extends ResultSet {
 	}
 
 	// Ranking with TF-IDF score
-	private RankedResult makeRank(GenericDocument document) {
+	private RankedResult makeRankTFIDF(GenericDocument document) {
 		WeightedDocument wd = (WeightedDocument) document;
-		double N = CorpusFactory.getCorpus().size();	//corpus size
 		double result=0;
 		for (String term : rankAccordingToQuery.split(" ")) {
 			VectorTermSpace vector = wd.getVector();

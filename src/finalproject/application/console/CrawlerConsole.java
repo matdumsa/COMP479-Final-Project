@@ -17,7 +17,7 @@ public class CrawlerConsole {
 			public void printResult(Result r) {
 				WebDocument wd = (WebDocument) r.getDocument();
 				if (r instanceof RankedResult){
-					DecimalFormat df = new DecimalFormat("0.000");
+					DecimalFormat df = new DecimalFormat("0.00000000");
 					RankedResult rR = (RankedResult)r;
 					System.out.print(rR.getDocument().getId() + " - " + df.format(rR.getRank()) + " - " + wd.getUrl());
 					System.out.println("\t" + rR.getDocument().getTitle());
