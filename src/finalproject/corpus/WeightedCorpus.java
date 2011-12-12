@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 import finalproject.GenericDocument;
 import finalproject.Posting;
 import finalproject.TaskComputeTFIDF;
+import finalproject.VectorTermSpace;
 import finalproject.WeightedDocument;
 import finalproject.index.spimi.DefaultInvertedIndex;
 import finalproject.technicalservices.BenchmarkRow;
@@ -51,6 +52,7 @@ public class WeightedCorpus extends Corpus {
 			termsToUniqueIds.put(s, c++);
 		}
 
+		VectorTermSpace.setStringToIntegerMap(termsToUniqueIds);
 		
 		ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREAD);
 		for (GenericDocument gd : data.keySet()) {
@@ -58,6 +60,7 @@ public class WeightedCorpus extends Corpus {
 			LinkedList<Posting> postingList = data.get(gd);
 			executor.submit(new TaskComputeTFIDF(document, postingList, getIndex(), super.size(), termsToUniqueIds));
 		}
+		
 		
 		executor.shutdown();
 		

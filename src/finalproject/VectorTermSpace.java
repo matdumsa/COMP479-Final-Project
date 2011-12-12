@@ -12,8 +12,21 @@ import java.util.TreeMap;
 public class VectorTermSpace {
 	// Integer is the termID and double the weight associated.
 	private Map<Integer, Double> vector;
+	private static Map<String, Integer> stringToIntegerMap;
 
-
+	public static void setStringToIntegerMap(Map<String, Integer> map) {
+		VectorTermSpace.stringToIntegerMap = map;
+	}
+	
+	public Double getValueForTerm(String term) {
+		if (term==null)
+			return new Double(0);
+		Integer id = stringToIntegerMap.get(term);
+		if (id == null)
+			return new Double(0);
+		else return vector.get(id);
+	}
+	
 	public VectorTermSpace() {
 		vector = new TreeMap<Integer, Double>();
 	}

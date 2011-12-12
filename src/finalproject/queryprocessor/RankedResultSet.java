@@ -7,6 +7,8 @@ import java.util.TreeSet;
 
 import finalproject.GenericDocument;
 import finalproject.Posting;
+import finalproject.VectorTermSpace;
+import finalproject.WeightedDocument;
 import finalproject.corpus.CorpusFactory;
 import finalproject.index.spimi.DefaultInvertedIndex;
 
@@ -49,7 +51,22 @@ public class RankedResultSet extends ResultSet {
 	}
 
 	//This methods applies Okapi BM25
-	private RankedResult makeRank(GenericDocument abstractDocument) {
+	private RankedResult makeRank(GenericDocument document) {
+		WeightedDocument wd = (WeightedDocument) document;
+		double N = CorpusFactory.getCorpus().size();	//corpus size
+		double result=0;
+		for (String term : rankAccordingToQuery.split(" ")) {
+			VectorTermSpace vector = wd.getVector();
+			if (vector == null)
+				continue;
+			Double tfidf = vector.getValueForTerm(term);
+			if (tfidf != null)
+			result += tfidf;
+		}
+		return new RankedResult(document, result);
+	}
+	
+	private RankedResult makeRankBM25(GenericDocument abstractDocument) {
 		double N = CorpusFactory.getCorpus().size();	//corpus size
 		double k1 = 1.5;
 		double b = 0.75;
