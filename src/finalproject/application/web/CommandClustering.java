@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import finalproject.corpus.ClusteredWeightedCorpus;
 import finalproject.corpus.CorpusFactory;
-import finalproject.queryprocessor.clustering.ResultCluster;
 
 public class CommandClustering extends Command {
 
@@ -20,8 +19,7 @@ public class CommandClustering extends Command {
 			System.out.println("Displaying Cluster");
 			
 			ClusteredWeightedCorpus corpus = (ClusteredWeightedCorpus) CorpusFactory.getCorpus();
-			ResultCluster clusters = corpus.getClustering().createResultCluster();
-			request.setAttribute("clusters", clusters);
+			request.setAttribute("clusters", corpus.getClustering());
 
 			RequestDispatcher rd = request.getRequestDispatcher(super.getJSPPAth("cluster.jsp"));
 			rd.forward(request, response);

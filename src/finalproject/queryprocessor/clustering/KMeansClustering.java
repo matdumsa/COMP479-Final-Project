@@ -130,11 +130,4 @@ public class KMeansClustering {
 		return clusterList;
 	}
 
-	public ResultCluster createResultCluster() {
-		ResultCluster result = new ResultCluster();
-		for (int x=0; x<getClusterCount(); x++) {
-			result.add(peekAtClusters(x, 10));
-		}
-		return result;
-	}
 }

@@ -14,7 +14,7 @@ public class Cluster {
 	private VectorTermSpace cachedCentroid = null;
 
 
-	public int size() {
+	public int getSize() {
 		return members.size();
 	}
 	
@@ -95,6 +95,10 @@ public class Cluster {
 		}
 		
 		return finalResult;
+	}
+	
+	public Collection<WeightedDocument> getClosestTen() {
+		return subList(10);
 	}
 	
 	/**
