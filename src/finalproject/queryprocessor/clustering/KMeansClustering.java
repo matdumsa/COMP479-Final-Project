@@ -104,7 +104,13 @@ public class KMeansClustering {
 				e.printStackTrace();
 			}
 		}
-		
+
+		//One final centroid recompute
+		for (Cluster cluster : clusterList) {
+			//force centroid calculation and caching.
+			cluster.getCentroid(true);
+		}
+
 		clusteringBenchmark.stop();
 		System.out.println(clusteringBenchmark.toString());
 		lastClustering = System.currentTimeMillis();

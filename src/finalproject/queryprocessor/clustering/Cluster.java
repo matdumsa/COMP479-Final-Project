@@ -1,7 +1,10 @@
 package finalproject.queryprocessor.clustering;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import finalproject.VectorTermSpace;
 import finalproject.WeightedDocument;
@@ -71,27 +74,25 @@ public class Cluster {
 	}
 
 	/**
-	 * Return numberOfDocument from this Cluster
+	 * Return numberOfDocument from this Cluster in descending order of distance from the centroid
 	 * @param numberOfDocument
 	 * @return
 	 */
 	public Collection<WeightedDocument> subList(int numberOfDocument) {
-		LinkedList<WeightedDocument> list = new LinkedList<WeightedDocument>();
-		int currentSize = 0;
-		int numberPass = 0;
-		while (currentSize < numberOfDocument && currentSize < members.size()){
-			for(WeightedDocument w : members.subList(numberPass*numberOfDocument, Math.min(numberOfDocument, members.size()))){
-				if (!list.contains(w)){
-					list.add(w);
-				}
-				currentSize++;
-			}
-			numberPass++;
+		TreeMap<Double, WeightedDocument> result = new TreeMap<Double, WeightedDocument>();
+			
+		for (WeightedDocument wd : members) {
+			result.put(wd.getVector().getDistanceFromVector(cachedCentroid), wd);
 		}
-		if (members.size() < numberOfDocument)
-			return members;
-		return list;
+
+		LinkedList<WeightedDocument> finalResult = new LinkedList<WeightedDocument>();
+		int x=1;
+		while (x<numberOfDocument && finalResult.size() > 0) {
+			finalResult.add(result.pollFirstEntry().getValue());
+			x++;
+		}
 		
+		return finalResult;
 	}
 	
 	/**
